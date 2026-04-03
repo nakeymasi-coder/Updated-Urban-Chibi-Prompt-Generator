@@ -1,0 +1,2468 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GlamorousGrammyGlowUp Urban Chibi Generator</title>
+<style>
+body{
+background:#0d0d1f;
+font-family:Arial, sans-serif;
+color:white;
+padding:40px;
+margin:0;
+}
+.container{
+max-width:1200px;
+margin:auto;
+background:#151533;
+padding:40px;
+border-radius:12px;
+border:3px solid #4F46E5;
+box-shadow:0 0 30px rgba(79,70,229,0.25);
+}
+h1{
+color:#F59E0B;
+margin-top:0;
+}
+h2{
+color:#F59E0B;
+border-bottom:1px solid rgba(245,158,11,0.35);
+padding-bottom:8px;
+margin-top:34px;
+}
+.intro{
+background:rgba(79,70,229,0.18);
+border:1px solid rgba(245,158,11,0.35);
+padding:14px 16px;
+border-radius:10px;
+margin-bottom:24px;
+line-height:1.5;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+.field{
+background:rgba(255,255,255,0.03);
+padding:14px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,0.06);
+}
+label{
+font-weight:bold;
+display:block;
+margin-bottom:8px;
+color:#fff;
+}
+select,input,button,textarea{
+width:100%;
+box-sizing:border-box;
+padding:10px;
+margin-top:6px;
+border-radius:6px;
+border:none;
+}
+input[type="text"]{
+background:#0d0d1f;
+color:#fff;
+border:1px solid rgba(79,70,229,0.6);
+}
+input[type="range"]{
+padding:0;
+}
+select{
+background:#fff;
+color:#111;
+}
+.buttons{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:14px;
+margin-top:28px;
+}
+button{
+background:#4F46E5;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s ease;
+}
+button:hover{
+background:#F59E0B;
+color:#111;
+}
+textarea{
+width:100%;
+height:340px;
+background:black;
+color:#F59E0B;
+padding:15px;
+border:2px solid #4F46E5;
+margin-top:22px;
+line-height:1.45;
+}
+.note{
+font-size:12px;
+color:#d2d2ff;
+margin-top:6px;
+line-height:1.4;
+}
+.field.disabled-field{
+opacity:0.45;
+filter:saturate(0.7);
+}
+.field.disabled-field label::after{
+content:' (locked)';
+color:#F59E0B;
+font-size:12px;
+}
+.small-row{
+display:grid;
+grid-template-columns:1fr auto;
+align-items:center;
+gap:8px;
+}
+.skin-value{
+color:#F59E0B;
+font-weight:bold;
+}
+
+:root{
+--bg-accent-1: rgba(245,158,11,0.18);
+--bg-accent-2: rgba(79,70,229,0.22);
+--bg-accent-3: rgba(255,255,255,0.06);
+}
+body::before,
+body::after{
+content:'';
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-3;
+}
+body::before{
+background:
+radial-gradient(circle at 15% 20%, var(--bg-accent-1), transparent 28%),
+radial-gradient(circle at 85% 18%, var(--bg-accent-2), transparent 30%),
+radial-gradient(circle at 50% 80%, var(--bg-accent-3), transparent 32%);
+animation:bgPulse 14s ease-in-out infinite alternate;
+filter:blur(0px);
+}
+body::after{
+background:
+linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+background-size:40px 40px;
+mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.85) 18%, rgba(0,0,0,0.9) 82%, transparent 100%);
+opacity:0.45;
+animation:gridDrift 30s linear infinite;
+}
+.animated-bg{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-2;
+overflow:hidden;
+}
+.orb{
+position:absolute;
+border-radius:999px;
+filter:blur(14px);
+opacity:0.65;
+animation:floatOrb linear infinite;
+}
+.orb.one{width:260px;height:260px;left:6%;top:10%;background:rgba(79,70,229,0.22);animation-duration:24s;}
+.orb.two{width:320px;height:320px;right:8%;top:22%;background:rgba(245,158,11,0.18);animation-duration:28s;}
+.orb.three{width:280px;height:280px;left:28%;bottom:8%;background:rgba(255,0,102,0.12);animation-duration:32s;}
+.orb.four{width:220px;height:220px;right:22%;bottom:12%;background:rgba(0,212,255,0.12);animation-duration:26s;}
+.scroll-nav{
+position:fixed;
+right:18px;
+top:50%;
+transform:translateY(-50%);
+display:flex;
+flex-direction:column;
+gap:14px;
+z-index:50;
+}
+.scroll-btn{
+width:52px;
+height:52px;
+border-radius:999px;
+border:1px solid rgba(245,158,11,0.75);
+background:rgba(21,21,51,0.88);
+color:#F59E0B;
+font-size:22px;
+font-weight:bold;
+box-shadow:0 0 10px rgba(245,158,11,0.55), 0 0 22px rgba(79,70,229,0.35), inset 0 0 10px rgba(79,70,229,0.18);
+}
+.scroll-btn:hover{transform:translateY(-2px);}
+.output-actions{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+margin-top:10px;
+}
+.marketing-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:18px;
+}
+.marketing-box{
+background:rgba(255,255,255,0.03);
+padding:14px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,0.06);
+}
+.marketing-box h3{
+margin:0 0 8px 0;
+color:#F59E0B;
+font-size:18px;
+}
+.marketing-box textarea{
+height:220px;
+margin-top:0;
+}
+@keyframes floatOrb{
+0%{transform:translateY(0px) translateX(0px) scale(1);}
+50%{transform:translateY(-40px) translateX(22px) scale(1.08);}
+100%{transform:translateY(25px) translateX(-18px) scale(0.96);}
+}
+@keyframes bgPulse{
+0%{transform:scale(1) rotate(0deg);opacity:0.9;}
+100%{transform:scale(1.08) rotate(2deg);opacity:1;}
+}
+@keyframes gridDrift{
+0%{transform:translateY(0px);}
+100%{transform:translateY(40px);}
+}
+
+@media (max-width:700px){
+body{padding:18px;}
+.container{padding:20px;}
+}
+
+.ggg-marquee-wrap{
+width:100%;
+margin:14px 0 22px 0;
+border:1px solid rgba(245,158,11,0.28);
+border-radius:14px;
+background:linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+box-shadow:0 0 0 1px rgba(255,255,255,0.03) inset, 0 10px 30px rgba(0,0,0,0.20);
+overflow:hidden;
+position:relative;
+backdrop-filter:blur(6px);
+-webkit-backdrop-filter:blur(6px);
+}
+.ggg-marquee-track{
+display:flex;
+width:max-content;
+min-width:200%;
+animation:gggMarquee 18s linear infinite;
+will-change:transform;
+}
+.ggg-marquee-text{
+display:flex;
+align-items:center;
+gap:2.5rem;
+white-space:nowrap;
+padding:12px 0;
+padding-right:2.5rem;
+font-weight:700;
+letter-spacing:0.02em;
+font-size:14px;
+line-height:1.2;
+color:#fff7e6;
+text-shadow:0 0 12px rgba(245,158,11,0.16);
+}
+@keyframes gggMarquee{
+0%{transform:translateX(0);}
+100%{transform:translateX(-50%);}
+}
+@media (max-width:768px){
+.ggg-marquee-wrap{
+margin:12px 0 18px 0;
+border-radius:12px;
+}
+.ggg-marquee-text{
+font-size:13px;
+padding:11px 0;
+padding-right:2rem;
+gap:2rem;
+}
+}
+
+
+.preset-grid,[id="presetGrid"]{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+margin-top:14px;
+}
+.preset-btn{
+background:#1a1a3f;
+color:#fff;
+border:1px solid rgba(245,158,11,.35);
+border-radius:12px;
+padding:12px 14px;
+font-weight:700;
+cursor:pointer;
+text-align:center;
+box-shadow:0 0 0 1px rgba(255,255,255,.03) inset;
+}
+.preset-btn:hover{
+background:#23235a;
+border-color:#F59E0B;
+}
+
+.field label{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+.field-lock{
+margin-left:auto;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:36px;
+height:36px;
+padding:0 10px;
+border-radius:999px;
+border:1px solid rgba(245,158,11,.35);
+background:rgba(255,255,255,.06);
+color:#F59E0B;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:all .2s ease;
+box-shadow:0 0 0 1px rgba(255,255,255,.02) inset, 0 0 12px rgba(79,70,229,.18);
+}
+.field-lock:hover{
+transform:translateY(-1px);
+border-color:#F59E0B;
+box-shadow:0 0 16px rgba(245,158,11,.25);
+}
+.field.is-locked{
+box-shadow:0 0 0 1px rgba(245,158,11,.28), 0 0 18px rgba(245,158,11,.10);
+}
+.field.is-locked .field-lock{
+background:linear-gradient(135deg, rgba(245,158,11,.24), rgba(79,70,229,.24));
+border-color:#F59E0B;
+color:#fff3d6;
+box-shadow:0 0 18px rgba(245,158,11,.28);
+}
+
+
+.suno-panel{
+grid-column:1 / -1;
+background:rgba(255,255,255,0.03);
+padding:16px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.06);
+}
+.suno-label{
+font-weight:bold;
+display:block;
+margin-bottom:10px;
+color:#fff;
+}
+.suno-subnote{
+font-size:12px;
+color:#bdbdd8;
+margin-top:8px;
+line-height:1.4;
+}
+.suno-chip-wrap{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-bottom:10px;
+}
+.suno-chip{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:8px 14px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.04);
+color:#cfcfe6;
+font-size:14px;
+cursor:pointer;
+user-select:none;
+transition:all .2s ease;
+width:auto;
+}
+.suno-chip:hover{
+border-color:rgba(245,158,11,0.55);
+color:#fff;
+}
+.suno-chip.active{
+background:rgba(245,158,11,0.18);
+border-color:#F59E0B;
+color:#ffd98b;
+box-shadow:0 0 0 1px rgba(245,158,11,0.18) inset, 0 0 16px rgba(245,158,11,0.16);
+}
+.suno-hidden{
+display:none !important;
+}
+.suno-slider-grid{
+grid-column:1 / -1;
+display:grid;
+grid-template-columns:repeat(3,minmax(220px,1fr));
+gap:18px;
+}
+.suno-slider-box{
+background:rgba(255,255,255,0.03);
+padding:14px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.06);
+}
+.suno-slider-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:10px;
+font-weight:bold;
+color:#dcdcf5;
+}
+.suno-slider-head span:last-child{
+color:#F59E0B;
+}
+.suno-slider-box input[type="range"]{
+margin:0;
+}
+@media (max-width:900px){
+  .suno-slider-grid{grid-template-columns:1fr;}
+}
+
+</style>
+</head>
+<body>
+<div aria-hidden="true" class="animated-bg">
+<div class="orb one"></div>
+<div class="orb two"></div>
+<div class="orb three"></div>
+<div class="orb four"></div>
+</div>
+<div class="scroll-nav">
+<button class="scroll-btn" onclick="scrollToTop()" title="Scroll to top" type="button">↑</button>
+<button class="scroll-btn" onclick="scrollToBottom()" title="Scroll to bottom" type="button">↓</button>
+</div>
+<div class="container">
+<h1>✨ GlamorousGrammyGlowUp Urban Chibi Generator</h1>
+<div aria-label="Announcement bar" class="ggg-marquee-wrap">
+<div class="ggg-marquee-track">
+<div class="ggg-marquee-text">✨ Luxury Generator Bundle • Instant Download • Premium Images •</div>
+<div aria-hidden="true" class="ggg-marquee-text">✨ Luxury Generator Bundle • Instant Download • Premium Images •</div>
+</div>
+</div>
+<div class="intro">
+Build a glossy, exaggerated urban chibi prompt with bold streetwear energy. Pick from the dropdowns, add custom details under any category, then hit <strong>Generate Prompt</strong>. Use the prompt in ChatGPT, Gemini, Bing Image Creator, or your favorite image tool.
+</div>
+<div class="preset-panel">
+<h2>Preset Looks</h2>
+<p class="preset-note">Tap a preset to instantly fill the generator with a polished urban glossy chibi setup.</p>
+<div class="preset-grid" id="presetGrid"></div>
+</div>
+
+<h2>Identity</h2>
+<div class="grid">
+<div class="field">
+<label for="gender">Gender</label>
+<select id="gender">
+<option>None</option>
+<option>Female</option>
+<option>Male</option>
+</select>
+<input id="genderCustom" placeholder="Custom gender detail (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="race">Ethnicity</label>
+<select id="race"><option>None</option><option>African</option><option>African American</option><option>Afro-Latina</option><option>Arab</option><option>Asian</option><option>Black British</option><option>Brazilian</option><option>Caribbean</option><option>Dominican</option><option>East African</option><option>East Asian</option><option>Ethiopian</option><option>European</option><option>Filipino</option><option>French Creole</option><option>Ghanaian</option><option>Haitian</option><option>Hispanic</option><option>Indian</option><option>Indigenous</option><option>Italian</option><option>Jamaican</option><option>Japanese</option><option>Kenyan</option><option>Korean</option><option>Latina</option><option>Middle Eastern</option><option>Mixed Race</option><option>Moroccan</option><option>Native American</option><option>Nigerian</option><option>Pacific Islander</option><option>Puerto Rican</option><option>Senegalese</option><option>Somali</option><option>South African</option><option>South Asian</option><option>Trinidadian</option><option>West African</option></select>
+<input id="raceCustom" placeholder="Custom ethnicity detail (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="skinTone">Skin Tone</label>
+<select id="skinTone"><option>None</option><option>Almond beige</option><option>Amber bronze</option><option>Bronzed mocha</option><option>Butterscotch</option><option>Caramel</option><option>Chestnut</option><option>Cinnamon</option><option>Cocoa</option><option>Copper brown</option><option>Creamy beige</option><option>Deep bronze</option><option>Deep espresso</option><option>Deep mahogany</option><option>Ebony</option><option>Golden beige</option><option>Golden brown</option><option>Hazelnut</option><option>Honey bronze</option><option>Honey tan</option><option>Ivory cream</option><option>Mahogany</option><option>Maple brown</option><option>Mocha</option><option>Neutral beige</option><option>Olive tan</option><option>Peach beige</option><option>Porcelain beige</option><option>Red clay</option><option>Rich cocoa</option><option>Rich pecan</option><option>Rose beige</option><option>Sable brown</option><option>Soft tan</option><option>Sun-kissed beige</option><option>Toffee</option><option>Toffee brown</option><option>Walnut</option><option>Warm almond</option><option>Warm bronze</option></select>
+<div class="small-row">
+<input id="skin" max="10" min="1" type="range" value="5"/>
+<span class="skin-value" id="skinValue">5</span>
+</div>
+<input id="skinCustom" placeholder="Custom skin detail (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="eyes">Eye Color</label>
+<select id="eyes"><option>None</option><option>Amber</option><option>Amber brown</option><option>Aqua</option><option>Black</option><option>Blue</option><option>Blue-gray</option><option>Bright hazel</option><option>Brown</option><option>Champagne</option><option>Chocolate brown</option><option>Copper</option><option>Dark Brown</option><option>Emerald</option><option>Forest green</option><option>Golden</option><option>Golden hazel</option><option>Gray</option><option>Green</option><option>Hazel</option><option>Honey</option><option>Ice Blue</option><option>Jet black</option><option>Lavender</option><option>Moss green</option><option>Olive</option><option>Pink</option><option>Red</option><option>Rose gold</option><option>Sapphire</option><option>Silver</option><option>Smoky gray</option><option>Steel blue</option><option>Sunlit brown</option><option>Teal</option><option>Topaz</option><option>Turquoise</option><option>Violet</option><option>Warm brown</option><option>Whiskey</option></select>
+<input id="eyesCustom" placeholder="Custom eye detail (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="expression">Facial Expression</label>
+<select id="expression"><option>None</option><option>Attitude stare</option><option>Bold laugh</option><option>Bossed up</option><option>Calm but dangerous</option><option>Chin-up confidence</option><option>Confident stare</option><option>Cool smirk</option><option>Cute pout</option><option>Direct gaze</option><option>Dreamy smile</option><option>Fierce focus</option><option>Flirty grin</option><option>Gentle smile</option><option>Glossy glam stare</option><option>Happy glow</option><option>Icy confidence</option><option>Laid-back grin</option><option>Mean mug</option><option>Model stare</option><option>No-nonsense stare</option><option>Playful wink</option><option>Power pose stare</option><option>Pretty but dangerous</option><option>Quiet confidence</option><option>Radiant joy</option><option>Raised brow</option><option>Relaxed smile</option><option>Sassy pout</option><option>Serious face</option><option>Side-eye</option><option>Smiling side-eye</option><option>Soft smirk</option><option>Street cool</option><option>Sultry gaze</option><option>Sweet smile</option><option>Unbothered</option><option>Victory grin</option><option>Wide smile</option><option>Wink and smile</option></select>
+<input id="expressionCustom" placeholder="Custom facial expression (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="features">Facial Features</label>
+<select id="features"><option>None</option><option>Baby face cheeks</option><option>Beauty mark</option><option>Bold brow bone</option><option>Bright smile</option><option>Button nose</option><option>Chiseled face</option><option>Cupid bow lips</option><option>Defined cheekbones</option><option>Delicate chin</option><option>Dimples</option><option>Doe eyes</option><option>Fox eyes</option><option>Freckles</option><option>Full cheeks</option><option>Full lips</option><option>Glossy lips</option><option>Glowing skin</option><option>Heart-shaped face</option><option>High cheekbones</option><option>Long lashes</option><option>Oval face</option><option>Plush lips</option><option>Round cheeks</option><option>Rounded jawline</option><option>Sculpted nose</option><option>Sharp chin</option><option>Sharp jawline</option><option>Snatched cheekbones</option><option>Soft dimples</option><option>Soft freckles</option><option>Soft jawline</option><option>Soft pout</option><option>Soft smile lines</option><option>Straight nose</option><option>Tiny nose stud</option><option>Upturned nose</option><option>Wide almond eyes</option><option>Wide smile</option><option>Youthful glow</option></select>
+<input id="featuresCustom" placeholder="Custom facial features (optional)" type="text"/>
+</div>
+</div>
+<h2>Hair + Beauty</h2>
+<div class="grid">
+<div class="field">
+<label for="hair">Hairstyle</label>
+<select id="hair"><option>None</option><option>Afro puffs</option><option>Asymmetrical bob</option><option>Bantu knots</option><option>Blunt bob</option><option>Braided ponytail</option><option>Braids to the back</option><option>Bubble ponytail</option><option>Burst fade curls</option><option>Buzz cut</option><option>Colored curls</option><option>Cornrows</option><option>Curly bob</option><option>Curly frohawk</option><option>Curtain locs</option><option>Finger waves</option><option>Freeform locs</option><option>Fulani braids</option><option>Half-up half-down quick weave</option><option>High curly ponytail</option><option>High top curls</option><option>Jumbo twists</option><option>Knotless braids</option><option>Layered waves</option><option>Loc bob</option><option>Long bone-straight hair</option><option>Long sleek ponytail</option><option>Loose waves</option><option>Pixie swoop</option><option>Shag curls</option><option>Short sponge twists</option><option>Silk press</option><option>Sleek buss-down</option><option>Space buns</option><option>Starter locs</option><option>Taper fade</option><option>Twists with fade</option><option>Waves</option><option>Wet look bob</option><option>Wolf cut curls</option>
+<option>Beaded bantu buns</option>
+<option>Beaded bubble curls</option>
+<option>Beaded heart braids</option>
+<option>Big side-swept glam curls</option>
+<option>Braided twin tails with headphones</option>
+<option>Bubble braid pigtails</option>
+<option>Color-streak space buns with bangs</option>
+<option>Curly pigtails with bows</option>
+<option>Curly ponytail with laid edges</option>
+<option>Full glam side-part waves</option>
+<option>Heart bead braids</option>
+<option>High curly puff ponytail</option>
+<option>Jumbo hoop braid bob</option>
+<option>Long ombre box braids</option>
+<option>Long side-part box braids</option>
+<option>Loose curls with pearl bows</option>
+<option>Mini buns with curled ends</option>
+<option>Pink ombre braids</option>
+<option>Pink ribbon pigtails</option>
+<option>Rolled vintage glam curls</option>
+<option>Side-swoop pixie waves</option>
+<option>Soft puff buns with bows</option>
+<option>Statement swirl puffs</option>
+<option>Triple girl-group puffs</option>
+<option>Voluminous curly top bun</option>
+
+<option>Black to silver ombre curls</option>
+<option>Color-pop side-part glam waves</option>
+<option>Extra long micro braids</option>
+<option>Glossy boho curls with beads</option>
+<option>Long glam locs</option>
+<option>Ribbon headphones curls</option>
+<option>Rolled glam locs</option>
+<option>Side-swept silver ombre curls</option>
+</select>
+<input id="hairCustom" placeholder="Custom hairstyle (optional)" type="text"/>
+</div>
+
+<div class="field" id="maleHairField">
+<label for="maleHair">Men Hairstyle</label>
+<select id="maleHair"><option>None</option><option>Box braids with fade</option><option>Classic cornrows</option><option>Coil sponge twists</option><option>Curly high top fade</option><option>Designer starter locs</option><option>Freeform locs</option><option>Fresh waves cut</option><option>High top locs</option><option>Mini twists fade</option><option>Sharp barrel twists</option><option>Short brush curls</option><option>Short loc taper</option><option>Skin fade with twists</option><option>Snapback-ready taper fade</option><option>Straight-back braids</option><option>Taper fade coils</option><option>Twists with undercut</option><option>Wave cut with part</option></select>
+<input id="maleHairCustom" placeholder="Custom men hairstyle (optional)" type="text"/>
+</div>
+
+<div class="field">
+<label for="hairColor">Hair Color</label>
+<select id="hairColor"><option>None</option><option>Ash brown</option><option>Black to blonde ombre</option><option>Blue-black</option><option>Burgundy</option><option>Butter blonde</option><option>Caramel blonde</option><option>Champagne blonde</option><option>Cherry cola</option><option>Cherry red</option><option>Chocolate brown</option><option>Cinnamon brown</option><option>Copper</option><option>Cotton candy pink</option><option>Emerald green</option><option>Forest green</option><option>Ginger</option><option>Golden blonde</option><option>Honey blonde</option><option>Hot pink</option><option>Icy silver</option><option>Jet black</option><option>Lavender</option><option>Midnight blue</option><option>Mink brown</option><option>Mocha brown</option><option>Neon lime</option><option>Pastel pink</option><option>Platinum</option><option>Purple rain</option><option>Rose gold</option><option>Ruby red</option><option>Sapphire blue</option><option>Silver smoke</option><option>Soft auburn</option><option>Sunset orange</option><option>Teal</option><option>Toffee brown</option><option>Warm auburn</option><option>Wine red</option></select>
+<input id="hairColorCustom" placeholder="Custom hair color (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="lashes">Lashes</label>
+<select id="lashes"><option>None</option><option>Anime lashes</option><option>Bottom lashes</option><option>Cat-eye lashes</option><option>Cluster lashes</option><option>Curled lashes</option><option>Doll lashes</option><option>Dramatic lashes</option><option>Feathered lashes</option><option>Flared lashes</option><option>Fluttery lashes</option><option>Foxy lashes</option><option>Half lashes</option><option>Long wispy lashes</option><option>Manga lashes</option><option>Mascara lashes</option><option>Mega volume lashes</option><option>Mini wispy lashes</option><option>Natural lifted lashes</option><option>No lashes</option><option>Open-eye lashes</option><option>Outer-corner lashes</option><option>Rounded lashes</option><option>Separated lashes</option><option>Short flutter lashes</option><option>Soft glam lashes</option><option>Soft natural lashes</option><option>Soft spike lashes</option><option>Spiked lashes</option><option>Stacked lashes</option><option>Starburst lashes</option><option>Textured lashes</option><option>Thick volume lashes</option><option>Thin wispy lashes</option><option>Ultra doll lashes</option><option>Under-eye lashes</option><option>Volume lashes</option><option>Wet look lashes</option><option>Wispy lashes</option><option>XL glam lashes</option></select>
+<input id="lashesCustom" placeholder="Custom lashes (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="makeup">Makeup</label>
+<select id="makeup"><option>None</option><option>Berry glam</option><option>Bold liner glam</option><option>Bronzed glam</option><option>Clean girl glam</option><option>Color-pop glam</option><option>Cut-crease glam</option><option>Dewy glam</option><option>Editorial glam</option><option>Glitter eyeshadow</option><option>Glossy glam</option><option>Gold glam</option><option>Graphic liner glam</option><option>High blush glam</option><option>Icy glam</option><option>Lilac glam</option><option>Minimal beat</option><option>Mocha glam</option><option>Monochrome glam</option><option>Natural soft glam</option><option>Neon glam</option><option>Nude glam</option><option>Peachy glam</option><option>Pink glam</option><option>Plum glam</option><option>Radiant glam</option><option>Retro glam</option><option>Rose gold glam</option><option>Sharp wing liner</option><option>Shimmer glam</option><option>Smokey glam</option><option>Soft blush glam</option><option>Soft glam</option><option>Soft matte glam</option><option>Sunset glam</option><option>Trap glam</option><option>Under-eye highlight</option><option>Warm bronze glam</option><option>Wine glam</option><option>Y2K glam</option></select>
+<input id="makeupCustom" placeholder="Custom makeup detail (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="brows">Eyebrows</label>
+<select id="brows"><option>None</option><option>Arched brows</option><option>Bold brows</option><option>Brow slit</option><option>Brushed-up brows</option><option>Classic clean brows</option><option>Clean sculpted brows</option><option>Curved brows</option><option>Defined brows</option><option>Feathered brows</option><option>Fine brows</option><option>Fluffy brows</option><option>Foxy brows</option><option>Full brows</option><option>Glossy brow lamination</option><option>Groomed brows</option><option>High arch brows</option><option>Laminated brows</option><option>Low arch brows</option><option>Natural full brows</option><option>Natural soft brows</option><option>Neutral brows</option><option>No-brow editorial</option><option>Ombré brows</option><option>Pin-up brows</option><option>Rounded brows</option><option>Sharp arch brows</option><option>Short soft brows</option><option>Skinny brows</option><option>Sleek brows</option><option>Soft fluffy brows</option><option>Soft glam brows</option><option>Soft straight brows</option><option>Straight brows</option><option>Tapered brows</option><option>Textured brows</option><option>Thin brows</option><option>Ultra defined brows</option><option>Vintage thin brows</option><option>Wispy brows</option></select>
+<input id="browsCustom" placeholder="Custom brows (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="nails">Nails</label>
+<select id="nails"><option>None</option><option>Abstract nails</option><option>Airbrushed nails</option><option>Baby pink nails</option><option>Butterfly nails</option><option>Chrome nails</option><option>Classic French tips</option><option>Clear gloss nails</option><option>Crystal nails</option><option>Designer logo nails</option><option>Drip art nails</option><option>Extra long square nails</option><option>French tip nails</option><option>Gem tips</option><option>Glossy nude nails</option><option>Gold foil nails</option><option>Heart nails</option><option>Icy glitter nails</option><option>Jelly nails</option><option>Leopard print nails</option><option>Long acrylics</option><option>Marble nails</option><option>Metallic nails</option><option>Milk bath nails</option><option>Mirror nails</option><option>Neon tips</option><option>Nude ombré nails</option><option>Pearl nails</option><option>Pink ombré nails</option><option>Press-on glam nails</option><option>Rhinestone nails</option><option>Short glossy nails</option><option>Stiletto nails</option><option>Street art nails</option><option>Swirl nails</option><option>V-cut French nails</option><option>Velvet nails</option><option>White gloss nails</option><option>XL coffin nails</option><option>Y2K nails</option></select>
+<input id="nailsCustom" placeholder="Custom nails (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="hairGems">Hair Gems</label>
+<select id="hairGems"><option>None</option><option>Beaded strands</option><option>Butterfly clips</option><option>Color gems</option><option>Crown clips</option><option>Crystal beads</option><option>Crystal pins</option><option>Diamond barrettes</option><option>Floral clips</option><option>Gem butterflies</option><option>Gem swirls</option><option>Glitter roots</option><option>Glossy clips</option><option>Gold cuffs</option><option>Hair chains</option><option>Hair cuffs</option><option>Hair rings</option><option>Heart clips</option><option>Icy gems</option><option>Jeweled combs</option><option>Micro pearls</option><option>Mini bows</option><option>Moon clips</option><option>Neon gems</option><option>Pearl clips</option><option>Pearl pins</option><option>Pink crystals</option><option>Rainbow gems</option><option>Rhinestone clips</option><option>Rose clips</option><option>Rose gold clips</option><option>Sequin roots</option><option>Shell clips</option><option>Shimmer clips</option><option>Silver pins</option><option>Sparkle pins</option><option>Star clips</option><option>Starbursts</option><option>Studded clips</option><option>Velvet bows</option></select>
+<input id="hairGemsCustom" placeholder="Custom hair gems (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="edges">Hair Edges (women only vibe)</label>
+<select id="edges"><option>None</option><option>Classic swoop edges</option><option>Clean curved edges</option><option>Curved baby hairs</option><option>Defined swirl edges</option><option>Double swoop edges</option><option>Dramatic baby hairs</option><option>Elegant swirl edges</option><option>Fancy swirl edges</option><option>Feathered edges</option><option>Glossy laid edges</option><option>Heart edges</option><option>High-shine edges</option><option>Looped edges</option><option>Mini heart edges</option><option>Minimal edges</option><option>Polished baby hairs</option><option>Precision laid edges</option><option>Rounded swoop edges</option><option>S-curl edges</option><option>Sharp swoop edges</option><option>Simple laid edges</option><option>Sleek swoop edges</option><option>Smooth baby hairs</option><option>Soft curl edges</option><option>Soft heart edges</option><option>Soft laid edges</option><option>Statement swirl edges</option><option>Studio laid edges</option><option>Swirl edges</option><option>Tiny swoop edges</option><option>Triple swoop edges</option><option>Ultra laid edges</option><option>Urban glam edges</option><option>Velvet laid edges</option><option>Wave edges</option><option>Wet-look edges</option><option>Whipped edges</option><option>Wisp edges</option><option>Z-swoop edges</option></select>
+<input id="edgesCustom" placeholder="Custom edges (optional)" type="text"/>
+<div class="note">This detail only gets added to female prompts.</div>
+</div>
+<div class="field">
+<label for="earrings">Earrings</label>
+<select id="earrings"><option>None</option><option>Abstract drops</option><option>Bamboo earrings</option><option>Bar studs</option><option>Butterfly earrings</option><option>Chain-drop earrings</option><option>Chunky hoops</option><option>Chunky studs</option><option>Cross earrings</option><option>Crystal hoops</option><option>Designer studs</option><option>Diamond studs</option><option>Door knocker hoops</option><option>Double hoops</option><option>Dramatic drops</option><option>Gem hoops</option><option>Glow hoops</option><option>Gold hoops</option><option>Halo studs</option><option>Heart hoops</option><option>Huggie hoops</option><option>Iced-out hoops</option><option>Mini studs</option><option>Mixed metal hoops</option><option>Nameplate earrings</option><option>Oversized hoops</option><option>Pearl hoops</option><option>Pearl studs</option><option>Rhinestone hoops</option><option>Rose gold studs</option><option>Silver hoops</option><option>Square hoops</option><option>Star earrings</option><option>Studded hoops</option><option>Sunburst earrings</option><option>Tassel earrings</option><option>Teardrop earrings</option><option>Triple hoops</option><option>Twist hoops</option><option>Vintage hoops</option></select>
+<input id="earringsCustom" placeholder="Custom earrings (optional)" type="text"/>
+</div>
+</div>
+<h2>Fashion</h2>
+<div class="grid">
+<div class="field">
+<label for="femaleOutfit">Women Outfit</label>
+<select id="femaleOutfit"><option>None</option><option>Bodysuit with cargos</option><option>Corset top with cargo skirt</option><option>Crop top with stacked jeans</option><option>Cropped bomber with cargo pants</option><option>Cropped puffer jacket with mini skirt</option><option>Cutout catsuit with sneakers</option><option>Denim corset with cargos</option><option>Denim set with sneakers</option><option>Designer sweatsuit set</option><option>Fitted jumpsuit with sneakers</option><option>Fur-trim streetwear set</option><option>Graphic tee with biker shorts</option><option>Halter top with parachute pants</option><option>Hoodie dress with thigh-high boots</option><option>Leather set with sneakers</option><option>Matching sweatsuit set</option><option>Mesh top with stacked jeans</option><option>Mini dress with varsity jacket</option><option>Monogram jogger set</option><option>Off-shoulder street set</option><option>Oversized hoodie with thigh-high boots</option><option>Plaid mini with bomber jacket</option><option>Puffer jacket with biker shorts</option><option>Rhinestone tracksuit</option><option>Ribbed set with platform sneakers</option><option>Satin bomber with leggings</option><option>Sequin jogger set</option><option>Skirt set with combat boots</option><option>Sporty tube top with cargos</option><option>Street luxe two-piece set</option><option>Studded denim set</option><option>Tube top with baggy jeans</option><option>Utility romper with boots</option><option>Varsity jacket with mini dress</option><option>Velour tracksuit set</option><option>Windbreaker set with shorts</option><option>Wrap top with stacked denim</option><option>Y2K baby tee with cargos</option><option>Zip-up crop set</option></select>
+<input id="femaleOutfitCustom" placeholder="Custom women outfit (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="maleOutfit">Men Outfit</label>
+<select id="maleOutfit"><option>None</option><option>Bomber jacket with cargos</option><option>Denim jacket with distressed jeans</option><option>Denim set with sneakers</option><option>Designer tracksuit</option><option>Fitted tee with stacked jeans</option><option>Flannel with ripped denim</option><option>Fleece set with runners</option><option>Graphic hoodie with cargos</option><option>Graphic long sleeve with jeans</option><option>Hoodie with utility pants</option><option>Leather jacket with black denim</option><option>Luxury street set</option><option>Monochrome sweatsuit</option><option>Monogram jacket with black jeans</option><option>Open shirt with cargos</option><option>Oversized tee with tech pants</option><option>Plaid overshirt with cargos</option><option>Polo with stacked pants</option><option>Puffer coat with stacked jeans</option><option>Puffer vest with cargo shorts</option><option>Puffer vest with ripped jeans</option><option>Quilted jacket with denim</option><option>Racing jacket with jeans</option><option>Relaxed tee with tech fleece</option><option>Shacket with distressed jeans</option><option>Sleeveless hoodie with joggers</option><option>Sport jersey with cargos</option><option>Sporty streetwear fit</option><option>Street luxury two-piece set</option><option>Striped knit with cargos</option><option>Studded jacket with jeans</option><option>Tactical vest with joggers</option><option>Track jacket with stacked denim</option><option>Utility jacket with black pants</option><option>Varsity jacket with stacked denim</option><option>Varsity tee with cargos</option><option>Washed denim with white tee</option><option>Windbreaker with joggers</option><option>Zip hoodie with cargo pants</option></select>
+<input id="maleOutfitCustom" placeholder="Custom men outfit (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="femaleShoes">Women Shoes</label>
+<select id="femaleShoes"><option>None</option><option>Air Force 1s</option><option>Balenciaga sneakers</option><option>Chunky sneakers</option><option>Clear heels</option><option>Combat boots</option><option>Designer low tops</option><option>Designer slides</option><option>Dunks</option><option>Foam runners</option><option>Glitter sneakers</option><option>Gold heels</option><option>Heeled boots</option><option>High-top sneakers</option><option>Jordan 1s</option><option>Jordan 4s</option><option>Knee boots</option><option>Lace-up heels</option><option>Lug sole boots</option><option>Patent boots</option><option>Platform boots</option><option>Platform sneakers</option><option>Pointed boots</option><option>Printed sneakers</option><option>Puffy slides</option><option>Retro runners</option><option>Rhinestone heels</option><option>Skate sneakers</option><option>Sock boots</option><option>Statement sneakers</option><option>Strappy heels</option><option>Street runners</option><option>Studded boots</option><option>Thigh-high boots</option><option>Timberland boots</option><option>Transparent heels</option><option>Velvet sneakers</option><option>Wedge sneakers</option><option>White sneakers</option><option>Y2K platforms</option></select>
+<input id="femaleShoesCustom" placeholder="Custom women shoes (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="maleShoes">Men Shoes</label>
+<select id="maleShoes"><option>None</option><option>Air Force 1s</option><option>Chelsea boots</option><option>Chunky runners</option><option>Classic tennis shoes</option><option>Combat boots</option><option>Designer low tops</option><option>Designer trainers</option><option>Dunks</option><option>Foam runners</option><option>High-top boots</option><option>High-top sneakers</option><option>Jordan 1s</option><option>Jordan 4s</option><option>Jordan Retros</option><option>Lace-up boots</option><option>Leather sneakers</option><option>Low-top runners</option><option>Luxury loafers</option><option>Mesh runners</option><option>Monogram sneakers</option><option>Patent sneakers</option><option>Puffer boots</option><option>Retro basketball sneakers</option><option>Rugged boots</option><option>Running sneakers</option><option>Skate shoes</option><option>Slip-on sneakers</option><option>Sneaker boots</option><option>Sock sneakers</option><option>Sport runners</option><option>Street runners</option><option>Suede sneakers</option><option>Tech runners</option><option>Timberland boots</option><option>Track sneakers</option><option>Trail runners</option><option>Vintage sneakers</option><option>White sneakers</option><option>Yeezys</option></select>
+<input id="maleShoesCustom" placeholder="Custom men shoes (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="femaleAccessories">Women Accessories</label>
+<select id="femaleAccessories"><option>None</option><option>Ankle bracelet</option><option>Bamboo earrings</option><option>Bedazzled phone</option><option>Belly chain</option><option>Big hoops</option><option>Body chain</option><option>Charm bracelet</option><option>Charm necklace</option><option>Crossbody mini bag</option><option>Crystal watch</option><option>Designer shades</option><option>Diamond anklet</option><option>Furry bag</option><option>Glossy lip gloss</option><option>Gold hoops</option><option>Hair scarf</option><option>Hand fan</option><option>Heart bag</option><option>Hoop earrings</option><option>Iced-out watch</option><option>Layered bracelets</option><option>Layered chains</option><option>Luxury tote</option><option>Mini purse</option><option>Nail rings</option><option>Nameplate necklace</option><option>Nose ring</option><option>Oversized sunglasses</option><option>Pearl bracelet</option><option>Phone case charm</option><option>Rhinestone belt</option><option>Ring stack</option><option>Rose gold watch</option><option>Shoulder bag</option><option>Sparkle clutch</option><option>Statement watch</option><option>Stud earrings</option><option>Tinted shades</option><option>Waist chain</option></select>
+<input id="femaleAccessoriesCustom" placeholder="Custom women accessories (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="maleAccessories">Men Accessories</label>
+<select id="maleAccessories"><option>None</option><option>Bandana</option><option>Beanie</option><option>Body spray bottle</option><option>Bucket hat</option><option>Camera bag</option><option>Chain bracelet</option><option>Chain stack</option><option>Chrome watch</option><option>Cross chain</option><option>Crossbody bag</option><option>Cuban link</option><option>Designer shades</option><option>Diamond studs</option><option>Duffle bag</option><option>Durag</option><option>Finger rings</option><option>Fit watch</option><option>Frame glasses</option><option>Grillz</option><option>Hoop earrings</option><option>Iced-out watch</option><option>Leather bracelet</option><option>Luxury duffle</option><option>Monogram bag</option><option>Nameplate chain</option><option>Nose stud</option><option>Pendant chain</option><option>Puffer shoulder bag</option><option>Rings</option><option>Shoulder bag</option><option>Sling bag</option><option>Snapback</option><option>Sports watch</option><option>Statement shades</option><option>Stud earrings</option><option>Sunglasses</option><option>Waist bag</option><option>Wallet chain</option><option>Watch</option><option>Chicago Bulls snapback</option><option>Graffiti print snapback</option><option>LA snapback</option><option>Luxury croc snapback</option><option>NY fitted snapback</option><option>Street logo snapback</option><option>Team color snapback</option><option>Trucker snapback</option></select>
+<input id="maleAccessoriesCustom" placeholder="Custom men accessories (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="products">Products / Props</label>
+<select id="products"><option>None</option><option>Ad copy pack</option><option>AI prompt bundle</option><option>Art print mockup</option><option>Brand flyer kit</option><option>Canva template pack</option><option>Chibi sticker sheet</option><option>Coloring page bundle</option><option>Content planner</option><option>Course sales page</option><option>Digital workbook</option><option>Ebook cover set</option><option>Email swipe file</option><option>Exclusive preset pack</option><option>Faceless video kit</option><option>Font bundle</option><option>Generator vault</option><option>Hashtag pack</option><option>Hook script pack</option><option>Instagram reel pack</option><option>Lead magnet kit</option><option>Luxury mockup set</option><option>Mini course</option><option>Mobile wallpaper pack</option><option>Notion planner</option><option>Offer bundle</option><option>Pinterest pin set</option><option>PLR journal</option><option>Premium prompt generator</option><option>Printable journal</option><option>Product mockup pack</option><option>Sales funnel kit</option><option>Social media kit</option><option>Story template pack</option><option>TikTok content pack</option><option>UGC script pack</option><option>Video thumbnail kit</option><option>Website banner set</option><option>Workbook template</option><option>YouTube title pack</option></select>
+<input id="productsCustom" placeholder="Custom product or prop (optional)" type="text"/>
+</div>
+</div>
+<h2>Scene</h2>
+<div class="grid">
+<div class="field">
+<label for="location">Location</label>
+<select id="location"><option>None</option><option>Back alley stairwell</option><option>Backseat luxury SUV</option><option>Basketball court</option><option>Beauty supply storefront</option><option>Bodega front</option><option>Car wash bay</option><option>City rooftop</option><option>Club entrance</option><option>Corner store</option><option>Crosswalk downtown</option><option>Downtown sidewalk</option><option>Fancy apartment hallway</option><option>Gas station at night</option><option>Graffiti alley</option><option>Hair salon entrance</option><option>High-rise balcony</option><option>Luxury bathroom mirror</option><option>Luxury loft</option><option>Mall escalator</option><option>Music studio</option><option>Neon alley</option><option>Parking garage</option><option>Penthouse lounge</option><option>Pink urban studio</option><option>Poolside cabana</option><option>Project hallway</option><option>Rooftop lounge</option><option>Rooftop sunset</option><option>Skate park</option><option>Sneaker store</option><option>Street block</option><option>Street mural wall</option><option>Studio cyclorama</option><option>Subway platform</option><option>Trap staircase</option><option>Urban bridge</option><option>Urban stoop</option><option>VIP section</option><option>Warehouse loft</option></select>
+<input id="locationCustom" placeholder="Custom location (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="background">Background</label>
+<select id="background"><option>None</option><option>Abstract paint drips</option><option>Anime city glow</option><option>Bling sparkle wall</option><option>Chrome gradient</option><option>City skyline blur</option><option>Cloud glow</option><option>Color splash</option><option>Diamond grid</option><option>Editorial paper collage</option><option>Galaxy glitter</option><option>Glossy black studio</option><option>Gold shimmer wall</option><option>Graffiti wall</option><option>Heatwave blur</option><option>Holographic glow</option><option>LED light tunnel</option><option>Liquid chrome</option><option>Luxury bedroom</option><option>Mirror reflections</option><option>Neon checkerboard</option><option>Neon city lights</option><option>Neon hearts</option><option>Pink cloud wall</option><option>Pink studio</option><option>Poster collage wall</option><option>Prism light wall</option><option>Purple fog wash</option><option>Rainbow haze</option><option>Retro arcade</option><option>Rose gold shimmer</option><option>Soft bokeh lights</option><option>Starburst glow</option><option>Street poster wall</option><option>Sunset sky</option><option>Urban mural</option><option>Velvet drape</option><option>VIP club lights</option><option>White studio</option><option>Y2K sticker collage</option></select>
+<input id="backgroundCustom" placeholder="Custom background (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="elements">Elements</label>
+<select id="elements"><option>None</option><option>Bling stars</option><option>Boom box</option><option>Butterfly flares</option><option>Cash fan</option><option>Chain border</option><option>Chrome butterflies</option><option>City smoke</option><option>Crystal frame</option><option>Diamond sparkles</option><option>Dripping hearts</option><option>Flash effect</option><option>Floating hearts</option><option>Glitter rain</option><option>Glossy bubbles</option><option>Glow trails</option><option>Graffiti tags</option><option>Heart confetti</option><option>Holographic stickers</option><option>Light leaks</option><option>Luxury car</option><option>Micro glitters</option><option>Mirror shards</option><option>Money trail</option><option>Neon signs</option><option>Paper scraps</option><option>Phone flashes</option><option>Polaroid frame</option><option>Poster tears</option><option>Rose petals</option><option>Shopping bags</option><option>Smoke ribbons</option><option>Sneaker boxes</option><option>Sparkle dust</option><option>Starbursts</option><option>Street cones</option><option>Street posters</option><option>Tape strips</option><option>Taxi blur</option><option>Vinyl records</option></select>
+<input id="elementsCustom" placeholder="Custom elements (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="ornate">Ornate Elements</label>
+<select id="ornate"><option>None</option><option>Baroque frames</option><option>Chrome hearts</option><option>Crystal arches</option><option>Crystal chandeliers</option><option>Diamond borders</option><option>Diamond chains</option><option>Elegant swirls</option><option>Floating gems</option><option>Floating ribbons</option><option>Gem halos</option><option>Glossy columns</option><option>Glossy pedestals</option><option>Gold chains</option><option>Gold trim</option><option>Halo rings</option><option>Heart frames</option><option>Holographic stars</option><option>Iced-out borders</option><option>Jeweled frames</option><option>Laser grid</option><option>Luxe scrollwork</option><option>Luxury pillars</option><option>Metallic ribbons</option><option>Mirror shards</option><option>Neon crowns</option><option>Neon hearts</option><option>Pearl borders</option><option>Pearl drapes</option><option>Plush drapes</option><option>Prism beams</option><option>Reflective panels</option><option>Rose gold arches</option><option>Rose walls</option><option>Satin bows</option><option>Shimmer curtains</option><option>Sparkle arches</option><option>Star halos</option><option>Studded borders</option><option>Velvet ropes</option></select>
+<input id="ornateCustom" placeholder="Custom ornate elements (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="weather">Weather</label>
+<select id="weather"><option>None</option><option>Blue hour</option><option>Clear night</option><option>Cloudy day</option><option>Cool breeze</option><option>Crisp fall air</option><option>Dawn light</option><option>Drizzle</option><option>Electric storm</option><option>Foggy night</option><option>Golden hour</option><option>Hazy noon</option><option>Heatwave haze</option><option>Humid summer</option><option>Icy morning</option><option>Late night drizzle</option><option>Light rain</option><option>Misty morning</option><option>Moody rain</option><option>Moonlit night</option><option>Neon rain</option><option>Overcast glow</option><option>Pink sunset</option><option>Purple sunset</option><option>Rainy night</option><option>Smoky air</option><option>Snow flurries</option><option>Soft sunshine</option><option>Stormy sky</option><option>Street mist</option><option>Summer heat</option><option>Sun shower</option><option>Sunny day</option><option>Sunrise glow</option><option>Thunder clouds</option><option>Twilight</option><option>Warm evening</option><option>Wet pavement</option><option>Windy city night</option><option>Winter chill</option></select>
+<input id="weatherCustom" placeholder="Custom weather (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="fog">Fog</label>
+<select id="fog"><option>None</option><option>Ambient haze</option><option>Aura mist</option><option>Backlight fog</option><option>Blue haze</option><option>Chrome mist</option><option>Cloud fog</option><option>Cool fog</option><option>Diffuse glow fog</option><option>Dramatic haze</option><option>Dream mist</option><option>Editorial haze</option><option>Electric mist</option><option>Glitter fog</option><option>Golden haze</option><option>Heavy fog</option><option>Icy fog</option><option>Light haze</option><option>Light smoke</option><option>Low-lying fog</option><option>Luxury haze</option><option>Midnight fog</option><option>Moody mist</option><option>Neon fog</option><option>Pink fog</option><option>Purple haze</option><option>Radiant mist</option><option>Rose mist</option><option>Shimmer haze</option><option>Silver fog</option><option>Soft glow fog</option><option>Soft smoke</option><option>Street mist</option><option>Studio haze</option><option>Subtle mist</option><option>Sunset haze</option><option>Velvet haze</option><option>Warm haze</option><option>Wet haze</option><option>White mist</option></select>
+<input id="fogCustom" placeholder="Custom fog (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="timeOfDay">Time of Day</label>
+<select id="timeOfDay"><option>None</option><option>After midnight</option><option>Afterglow</option><option>Blue hour</option><option>Brunch hour</option><option>Cloudy morning</option><option>Dawn</option><option>Early morning</option><option>Evening glow</option><option>Golden hour</option><option>High noon</option><option>Late afternoon</option><option>Late night</option><option>Lunch hour</option><option>Magic hour</option><option>Midday</option><option>Midnight</option><option>Moonlit evening</option><option>Moonrise</option><option>Morning light</option><option>Neon dusk</option><option>Night</option><option>Noon</option><option>Pink sunset</option><option>Post-sunset</option><option>Pre-dawn</option><option>Pre-sunset</option><option>Prime time</option><option>Rush hour</option><option>Soft afternoon</option><option>Streetlight hour</option><option>Sunrise</option><option>Sunset</option><option>Tea time</option><option>Twilight</option><option>Velvet night</option><option>Warm evening</option><option>Weekend noon</option><option>Witching hour</option><option>Workday morning</option></select>
+<input id="timeOfDayCustom" placeholder="Custom time of day (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="season">Season</label>
+<select id="season"><option>None</option><option>All-season</option><option>Autumn</option><option>Bloom season</option><option>Breezy season</option><option>Cherry blossom season</option><option>Cold snap</option><option>Cool season</option><option>Cuffing season</option><option>Dry season</option><option>Early fall</option><option>Early spring</option><option>Festival season</option><option>Fresh season</option><option>Heat season</option><option>High summer</option><option>Holiday glow</option><option>Holiday season</option><option>Hot season</option><option>Late fall</option><option>Late spring</option><option>Leaf-fall season</option><option>Mid-summer</option><option>Mild season</option><option>Monsoon season</option><option>Peak winter</option><option>Rainy season</option><option>Snow season</option><option>Spring</option><option>Storm season</option><option>Summer</option><option>Sun season</option><option>Sweater season</option><option>Transition season</option><option>Tropical season</option><option>Vacation season</option><option>Warm season</option><option>Wet season</option><option>Windy season</option><option>Winter</option></select>
+<input id="seasonCustom" placeholder="Custom season (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="palette">Color Palette</label>
+<select id="palette"><option>None</option><option>Black and gold</option><option>Blue and silver</option><option>Blush and cream</option><option>Cherry red and black</option><option>Chocolate and gold</option><option>Cobalt and chrome</option><option>Copper and cream</option><option>Emerald and gold</option><option>Fuchsia and silver</option><option>Gold and ivory</option><option>Hot pink and black</option><option>Ice blue and white</option><option>Lavender and silver</option><option>Lemon and cobalt</option><option>Lilac and chrome</option><option>Mint and silver</option><option>Mocha and rose</option><option>Monochrome black</option><option>Neon lime and black</option><option>Nude and rose gold</option><option>Orange and teal</option><option>Peach and gold</option><option>Pink and white</option><option>Platinum and black</option><option>Purple and gold</option><option>Red and gold</option><option>Rose gold and blush</option><option>Royal blue and gold</option><option>Ruby and black</option><option>Sage and cream</option><option>Silver and black</option><option>Sky blue and white</option><option>Sunset ombré</option><option>Teal and silver</option><option>Toffee and cream</option><option>Turquoise and coral</option><option>White and gold</option><option>Wine and nude</option><option>Yellow and black</option></select>
+<input id="paletteCustom" placeholder="Custom color palette (optional)" type="text"/>
+</div>
+</div>
+<h2>Style Controls</h2>
+<div class="grid">
+<div class="field">
+<label for="artStyle">Art Style</label>
+<select id="artStyle"><option>None</option><option>Acrylic shine chibi</option><option>Airbrushed cartoon glam</option><option>Anime doll glam</option><option>Beauty campaign chibi</option><option>Bold editorial chibi</option><option>Candy gloss chibi</option><option>Cartoon-realism glam</option><option>Chrome shine chibi</option><option>Commercial beauty chibi</option><option>Cute luxury cartoon</option><option>Digital poster chibi</option><option>Editorial doll style</option><option>Exaggerated glossy chibi</option><option>Fashion doll chibi</option><option>Flash-lit beauty chibi</option><option>Glam sticker art</option><option>Glass skin chibi</option><option>Glossy 3D chibi</option><option>High-shine pop chibi</option><option>Hyper-gloss fashion chibi</option><option>Illustrated beauty poster</option><option>Kawaii street glam</option><option>Luxury pop-art chibi</option><option>Luxury urban chibi</option><option>Magazine cover chibi</option><option>Neon glam chibi</option><option>Playful fashion chibi</option><option>Pop-art street chibi</option><option>Poster shine chibi</option><option>Premium ad chibi</option><option>Runway glam chibi</option><option>Soft glam chibi</option><option>Streetwear doll style</option><option>Stylized beauty chibi</option><option>Trend-core chibi</option><option>Ultra glossy cartoon</option><option>Urban doll style</option><option>Y2K airbrush chibi</option><option>Y2K glam doll</option></select>
+<input id="artStyleCustom" placeholder="Custom art style (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="effects">Effects</label>
+<select id="effects"><option>None</option><option>Aura glow</option><option>Beauty blur</option><option>Bokeh sparkles</option><option>Chrome shine</option><option>Diamond dust</option><option>Flash glare</option><option>Glass blur</option><option>Glitter rain</option><option>Gloss boost</option><option>Glow trail</option><option>Halo light</option><option>Heatwave shimmer</option><option>High contrast pop</option><option>Holographic sheen</option><option>Iridescent sheen</option><option>Lens flare</option><option>Light leaks</option><option>Liquid shine</option><option>Luxe haze</option><option>Metallic shimmer</option><option>Mirror shine</option><option>Motion blur</option><option>Neon outline glow</option><option>Paper texture overlay</option><option>Poster grain</option><option>Prism flare</option><option>Radiant shine</option><option>Reflective sparkle</option><option>Rose gold shimmer</option><option>Shadow glow</option><option>Shimmer wash</option><option>Soft focus</option><option>Sparkle burst</option><option>Star filter</option><option>Studio bloom</option><option>Velvet glow</option><option>VHS glow</option><option>Wet shine</option><option>Y2K sparkle</option></select>
+<input id="effectsCustom" placeholder="Custom effects (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="shadow">Shadow</label>
+<select id="shadow"><option>None</option><option>Backlit shadow</option><option>Beauty shadow</option><option>Bold contrast shadow</option><option>Clean studio shadow</option><option>Clouded shadow</option><option>Contour shadow</option><option>Deep drop shadow</option><option>Diffused shadow</option><option>Dim shadow</option><option>Dramatic edge shadow</option><option>Editorial shadow</option><option>Elongated shadow</option><option>Feathered shadow</option><option>Floating shadow</option><option>Glossy shadow</option><option>Gradient shadow</option><option>Hard flash shadow</option><option>High contrast shadow</option><option>Layered shadow</option><option>Low shadow</option><option>Moody shadow</option><option>Natural soft shadow</option><option>Neon rim shadow</option><option>No shadow</option><option>Overhead shadow</option><option>Pink glow shadow</option><option>Reflective floor shadow</option><option>Shadow halo</option><option>Sharp studio shadow</option><option>Side cast shadow</option><option>Soft airbrush shadow</option><option>Soft drop shadow</option><option>Soft rim shadow</option><option>Spotlight shadow</option><option>Streetlight shadow</option><option>Subtle shadow</option><option>Warm sunset shadow</option><option>Wet pavement shadow</option><option>Window light shadow</option></select>
+<input id="shadowCustom" placeholder="Custom shadow (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="camera">Camera Angle</label>
+<select id="camera"><option>None</option><option>Beauty close-up</option><option>Centered full body</option><option>Detail crop shot</option><option>Direct front view</option><option>Dutch angle</option><option>Editorial side angle</option><option>Eye level</option><option>Fashion close-up</option><option>Front-facing portrait</option><option>Full body front view</option><option>Full body side view</option><option>Handheld angle</option><option>Hero low angle</option><option>High angle</option><option>High fashion crop</option><option>Knee-up crop</option><option>Looking back shot</option><option>Low angle</option><option>Mirror selfie angle</option><option>Motion shot</option><option>Over-the-shoulder</option><option>Peek-back angle</option><option>Portrait close-up</option><option>Profile shot</option><option>Selfie angle</option><option>Side profile</option><option>Sitting pose framing</option><option>Street snap angle</option><option>Symmetrical center shot</option><option>Tabletop lean angle</option><option>Three-quarter view</option><option>Tilted editorial shot</option><option>Top-down angle</option><option>Turned pose shot</option><option>Waist-up crop</option><option>Walking shot</option><option>Wide scene shot</option><option>Worm’s-eye view</option><option>Zoomed portrait</option></select>
+<input id="cameraCustom" placeholder="Custom camera angle (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="lighting">Lighting</label>
+<select id="lighting"><option>None</option><option>Backlight glow</option><option>Beauty dish lighting</option><option>Blue neon lighting</option><option>Bounce flash</option><option>Butterfly lighting</option><option>City streetlight glow</option><option>Clean studio lighting</option><option>Color gel lighting</option><option>Crisp daylight</option><option>Dramatic rim light</option><option>Editorial spotlight</option><option>Flash photography</option><option>Front glam lighting</option><option>Golden hour city light</option><option>Hard flash lighting</option><option>High-shine lighting</option><option>LED strip glow</option><option>Luxury soft light</option><option>Moody night lighting</option><option>Neon glow</option><option>Overcast soft light</option><option>Pink glow lighting</option><option>Purple neon lighting</option><option>Radiant front lighting</option><option>Reflective floor glow</option><option>Ring light catchlight</option><option>Rose gold lighting</option><option>Side spotlight</option><option>Soft beauty lighting</option><option>Soft glam lighting</option><option>Soft window light</option><option>Split lighting</option><option>Streetlight glow</option><option>Studio beauty lighting</option><option>Sunset rim light</option><option>Vibrant club lighting</option><option>Warm evening light</option><option>White flash lighting</option><option>Y2K flash lighting</option></select>
+<input id="lightingCustom" placeholder="Custom lighting (optional)" type="text"/>
+</div>
+</div>
+<h2>Text Controls</h2>
+<div class="grid">
+<div class="field">
+<label for="textOption">Text Option</label>
+<select id="textOption"><option>None</option><option>Bold slogan</option><option>Brand name overlay</option><option>Callout phrase</option><option>Campaign phrase</option><option>Catchy headline</option><option>Character name</option><option>Collection title</option><option>Cover line</option><option>Custom quote</option><option>Drop title</option><option>Feature title</option><option>Glow wordmark</option><option>Hero text</option><option>Launch teaser</option><option>Luxury tagline</option><option>Main headline</option><option>Mini slogan</option><option>Motivational line</option><option>Nameplate text</option><option>No text overlay</option><option>Offer banner</option><option>One-word statement</option><option>Poster headline</option><option>Power phrase</option><option>Product title</option><option>Promo phrase</option><option>Sale teaser</option><option>Scene label</option><option>Short CTA</option><option>Signature phrase</option><option>Social handle</option><option>Sparkle phrase</option><option>Sticker text</option><option>Story title</option><option>Street quote</option><option>Subheadline</option><option>Tagline text</option><option>Trend phrase</option><option>Website URL</option></select>
+<input id="textOptionCustom" placeholder="Custom text option (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="customText">Custom Text</label>
+<input id="customText" placeholder="Type the exact text to place in the image" type="text"/>
+<div class="note">Example: Pretty Girl Energy, Bossed Up, Street Princess</div>
+</div>
+<div class="field">
+<label for="fontStyle">Font Style</label>
+<select id="fontStyle"><option>None</option><option>Airbrush bubble</option><option>Beauty headline serif</option><option>Blocky chrome font</option><option>Bold block serif</option><option>Bubble graffiti</option><option>Candy script</option><option>Chrome serif</option><option>Chunky sans</option><option>Clean luxury sans</option><option>Cursive glam font</option><option>Curvy display</option><option>Decorative serif</option><option>Editorial italic serif</option><option>Elegant glam serif</option><option>Fashion editorial serif</option><option>Foam bubble font</option><option>Gloss script</option><option>Graffiti marker</option><option>Graphic sans</option><option>Handwritten script</option><option>High-fashion serif</option><option>Luxury script</option><option>Metallic display</option><option>Minimal sans</option><option>Neon brush</option><option>Old-school script</option><option>Outlined bubble</option><option>Poster bold</option><option>Retro serif</option><option>Rounded sans</option><option>Sharp italic display</option><option>Signature script</option><option>Slab serif</option><option>Soft glam script</option><option>Spray paint font</option><option>Sticker font</option><option>Street bold</option><option>Tall condensed sans</option><option>Y2K rounded font</option></select>
+<input id="fontStyleCustom" placeholder="Custom font style (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="textPlacement">Text Placement</label>
+<select id="textPlacement"><option>None</option><option>Above head centered</option><option>Banner across middle</option><option>Bottom center</option><option>Bottom left</option><option>Bottom right</option><option>Center</option><option>Center left</option><option>Center right</option><option>Chest area centered</option><option>Corner stamp left</option><option>Corner stamp right</option><option>Diagonal across image</option><option>Floating center</option><option>Floor area centered</option><option>Footer strip</option><option>Headline across top</option><option>Left side vertical</option><option>Lower third left</option><option>Lower third right</option><option>Middle top</option><option>Over shoulder area</option><option>Right side vertical</option><option>Side bubble left</option><option>Side bubble right</option><option>Sky area centered</option><option>Sticker top left</option><option>Sticker top right</option><option>Title block bottom</option><option>Title block center</option><option>Title block top</option><option>Top center</option><option>Top left</option><option>Top right</option><option>Upper third center</option><option>Upper third left</option><option>Upper third right</option><option>Vertical left edge</option><option>Vertical right edge</option><option>Waist area centered</option></select>
+<input id="textPlacementCustom" placeholder="Custom text placement (optional)" type="text"/>
+<div class="note">Default is centered, so your text won’t be floating around acting stupid.</div>
+</div>
+</div>
+<h2>Video + Song Controls</h2>
+<div class="grid">
+<div class="field">
+<label for="songType">Suno Song Type</label>
+<select id="songType"><option>None</option><option>30-second anthem</option><option>30-second jingle</option><option>60-second anthem</option><option>60-second bounce track</option><option>60-second hook song</option><option>Ad jingle</option><option>Afrobeat groove</option><option>Amapiano vibe</option><option>Anthem chorus</option><option>Brand chant</option><option>Call-and-response song</option><option>Campaign jingle</option><option>Club bounce cut</option><option>Content creator anthem</option><option>Dance challenge song</option><option>Feel-good jingle</option><option>Female empowerment track</option><option>Glam intro song</option><option>Hook-focused single</option><option>Hype chorus</option><option>Hype intro</option><option>Luxury promo song</option><option>Mini love song</option><option>Moodboard soundtrack</option><option>Party bounce song</option><option>Promo anthem</option><option>R&amp;B teaser</option><option>Rap hook</option><option>Reel-ready song</option><option>Sales jingle</option><option>Short chorus loop</option><option>Short hype track</option><option>Short intro sting</option><option>Short promo hook</option><option>Slogan jingle</option><option>Story soundtrack</option><option>TikTok challenge hook</option><option>Trend song</option><option>Victory song</option></select>
+<input id="songTypeCustom" placeholder="Custom song length or format (optional)" type="text"/>
+</div>
+
+<div class="suno-panel">
+<label class="suno-label">Genre <span style="font-weight:normal;color:#bdbdd8;">(select multiple)</span></label>
+<input id="songGenre" class="suno-hidden" type="text"/>
+<div class="suno-chip-wrap" id="songGenreChips">
+<button class="suno-chip active" data-target="songGenre" type="button">Afrobeat</button>
+<button class="suno-chip active" data-target="songGenre" type="button">R&amp;B</button>
+<button class="suno-chip" data-target="songGenre" type="button">Pop</button>
+<button class="suno-chip" data-target="songGenre" type="button">Hip-Hop</button>
+<button class="suno-chip" data-target="songGenre" type="button">Jazz</button>
+<button class="suno-chip" data-target="songGenre" type="button">Soul</button>
+<button class="suno-chip" data-target="songGenre" type="button">Gospel</button>
+<button class="suno-chip" data-target="songGenre" type="button">Dancehall</button>
+<button class="suno-chip" data-target="songGenre" type="button">Reggae</button>
+<button class="suno-chip" data-target="songGenre" type="button">Electronic</button>
+<button class="suno-chip" data-target="songGenre" type="button">Lo-fi</button>
+<button class="suno-chip" data-target="songGenre" type="button">Trap</button>
+<button class="suno-chip" data-target="songGenre" type="button">House</button>
+<button class="suno-chip" data-target="songGenre" type="button">Funk</button>
+<button class="suno-chip" data-target="songGenre" type="button">Neo-Soul</button>
+<button class="suno-chip" data-target="songGenre" type="button">Drill</button>
+<button class="suno-chip" data-target="songGenre" type="button">Amapiano</button>
+<button class="suno-chip" data-target="songGenre" type="button">Highlife</button>
+<button class="suno-chip" data-target="songGenre" type="button">Afro-fusion</button>
+<button class="suno-chip" data-target="songGenre" type="button">Classical</button>
+<button class="suno-chip" data-target="songGenre" type="button">Blues</button>
+<button class="suno-chip" data-target="songGenre" type="button">Rock</button>
+<button class="suno-chip" data-target="songGenre" type="button">Indie</button>
+<button class="suno-chip" data-target="songGenre" type="button">Country</button>
+<button class="suno-chip" data-target="songGenre" type="button">Latin</button>
+<button class="suno-chip" data-target="songGenre" type="button">K-Pop</button>
+<button class="suno-chip" data-target="songGenre" type="button">Synthwave</button>
+</div>
+<input id="songGenreCustom" placeholder="Add custom genre..." type="text"/>
+</div>
+
+<div class="suno-panel">
+<label class="suno-label">Style Influence <span style="font-weight:normal;color:#bdbdd8;">(select multiple)</span></label>
+<input id="songStyle" class="suno-hidden" type="text"/>
+<div class="suno-chip-wrap" id="songStyleChips">
+<button class="suno-chip active" data-target="songStyle" type="button">Beyoncé</button>
+<button class="suno-chip" data-target="songStyle" type="button">SZA</button>
+<button class="suno-chip" data-target="songStyle" type="button">Rihanna</button>
+<button class="suno-chip" data-target="songStyle" type="button">Doja Cat</button>
+<button class="suno-chip" data-target="songStyle" type="button">H.E.R.</button>
+<button class="suno-chip" data-target="songStyle" type="button">Erykah Badu</button>
+<button class="suno-chip" data-target="songStyle" type="button">Janelle Monáe</button>
+<button class="suno-chip" data-target="songStyle" type="button">Solange</button>
+<button class="suno-chip" data-target="songStyle" type="button">Megan Thee Stallion</button>
+<button class="suno-chip" data-target="songStyle" type="button">Cardi B</button>
+<button class="suno-chip" data-target="songStyle" type="button">FKA Twigs</button>
+<button class="suno-chip" data-target="songStyle" type="button">Jorja Smith</button>
+<button class="suno-chip" data-target="songStyle" type="button">Summer Walker</button>
+<button class="suno-chip" data-target="songStyle" type="button">Tems</button>
+<button class="suno-chip" data-target="songStyle" type="button">Burna Boy</button>
+<button class="suno-chip" data-target="songStyle" type="button">Wizkid</button>
+<button class="suno-chip" data-target="songStyle" type="button">Billie Eilish</button>
+<button class="suno-chip" data-target="songStyle" type="button">The Weeknd</button>
+<button class="suno-chip" data-target="songStyle" type="button">Frank Ocean</button>
+<button class="suno-chip" data-target="songStyle" type="button">Tyler The Creator</button>
+</div>
+<input id="songStyleCustom" placeholder="Add custom style influence..." type="text"/>
+</div>
+
+<div class="suno-slider-grid">
+<div class="suno-slider-box">
+<div class="suno-slider-head"><span>Weirdness</span><span id="weirdnessDisplay">15%</span></div>
+<input id="weirdnessSlider" max="100" min="0" type="range" value="15"/>
+</div>
+<div class="suno-slider-box">
+<div class="suno-slider-head"><span>Style Influence</span><span id="styleInfluenceDisplay">60%</span></div>
+<input id="styleInfluenceSlider" max="100" min="0" type="range" value="60"/>
+</div>
+<div class="suno-slider-box">
+<div class="suno-slider-head"><span>Audio Influence</span><span id="audioInfluenceDisplay">40%</span></div>
+<input id="audioInfluenceSlider" max="100" min="0" type="range" value="40"/>
+</div>
+</div>
+
+<div class="field">
+<label for="sunoNotes">Extra Suno Notes</label>
+<input id="sunoNotes" placeholder="Custom lyrics, ad-libs, pacing, instruments, hook ideas (optional)" type="text"/>
+</div>
+</div>
+</div>
+<h2>Marketing Engine</h2>
+<div class="grid">
+<div class="field">
+<label for="brandName">Brand / Product Name</label>
+<input id="brandName" placeholder="Example: GlamorousGrammyGlowUp Urban Chibi Generator" type="text"/>
+</div>
+<div class="field">
+<label for="webpageUrl">Webpage URL</label>
+<input id="webpageUrl" placeholder="Paste your website or product page link here" type="text"/>
+</div>
+<div class="field">
+<label for="offerType">Offer Type</label>
+<select id="offerType"><option>None</option><option>Affiliate product</option><option>AI prompt bundle</option><option>Branding kit</option><option>Canva template</option><option>Caption bundle</option><option>Challenge pack</option><option>Chibi generator</option><option>Coloring book bundle</option><option>Content planner</option><option>Course</option><option>Digital workbook</option><option>Done-for-you pack</option><option>Ebook</option><option>Email template pack</option><option>Exclusive vault</option><option>Faceless video kit</option><option>Freebie</option><option>Generator bundle</option><option>Graphic template kit</option><option>Hashtag pack</option><option>Hook swipe file</option><option>Lead magnet</option><option>Link-in-bio bundle</option><option>Marketing kit</option><option>Membership</option><option>Mini bundle</option><option>Mini course</option><option>Mockup bundle</option><option>Newsletter subscription</option><option>Notion planner</option><option>Pinterest pack</option><option>PLR journal</option><option>Preset pack</option><option>Printable bundle</option><option>Prompt generator</option><option>Quiz funnel</option><option>Sales page template</option><option>Social media bundle</option><option>Video script pack</option></select>
+<input id="offerTypeCustom" placeholder="Custom offer type (optional)" type="text"/>
+</div>
+<div class="field">
+<label for="targetAudience">Target Audience</label>
+<input id="targetAudience" placeholder="Example: creators, moms, women 40+, AI beginners, side hustlers" type="text"/>
+</div>
+<div class="field">
+<label for="offerHook">Main Offer Hook</label>
+<input id="offerHook" placeholder="Example: create glossy urban chibi prompts in minutes" type="text"/>
+</div>
+<div class="field">
+<label for="ctaGoal">Main CTA Goal</label>
+<select id="ctaGoal"><option>None</option><option>Add to cart</option><option>Apply now</option><option>Book the call</option><option>Browse the shop</option><option>Buy now</option><option>Check it out</option><option>Claim your spot</option><option>Click to learn</option><option>Comment below</option><option>Comment “info”</option><option>DM me</option><option>Download now</option><option>Follow for more</option><option>Get instant access</option><option>Get the freebie</option><option>Grab the bundle</option><option>Join the waitlist</option><option>Join today</option><option>Learn more</option><option>Limited-time offer</option><option>Message me</option><option>Open the link</option><option>Order now</option><option>Save your seat</option><option>See the details</option><option>Send me a message</option><option>Shop now</option><option>Sign up today</option><option>Start creating</option><option>Start now</option><option>Subscribe now</option><option>Tap the link</option><option>Tap to shop</option><option>Try it today</option><option>Unlock the vault</option><option>View the collection</option><option>Visit my website</option><option>Visit the page</option><option>Watch now</option></select>
+<input id="ctaGoalCustom" placeholder="Custom CTA goal (optional)" type="text"/>
+</div>
+</div>
+<div class="buttons">
+<button onclick="generate()">Generate Prompt</button>
+<button onclick="randomize()">Randomize</button>
+<button onclick="copyPrompt()">Copy Prompt</button>
+<button onclick="copyVideoScript()">Copy Video Script</button>
+<button onclick="copySunoScript()">Copy Suno Script</button>
+<button onclick="resetForm()">Reset</button>
+</div>
+<textarea id="output" placeholder="Your urban glossy chibi prompt will appear here..."></textarea>
+<div class="output-actions"><button onclick="copyPrompt()">Copy Image Prompt</button></div>
+<textarea id="videoOutput" placeholder="Your short video script will appear here..."></textarea>
+<div class="output-actions"><button onclick="copyVideoScript()">Copy Video Script</button></div>
+<textarea id="sunoOutput" placeholder="Your Suno song prompt will appear here..."></textarea>
+<div class="output-actions"><button onclick="copySunoScript()">Copy Suno Script</button></div>
+<h2>Marketing Copy Suite</h2>
+<div class="marketing-grid">
+<div class="marketing-box"><h3>Captions + CTA</h3><textarea id="captionOutput" placeholder="Captions and calls to action will appear here..."></textarea><div class="output-actions"><button onclick="copyField('captionOutput','Captions copied!')">Copy Captions</button></div></div>
+<div class="marketing-box"><h3>Hashtags + SEO</h3><textarea id="seoOutput" placeholder="Hashtags and SEO keywords will appear here..."></textarea><div class="output-actions"><button onclick="copyField('seoOutput','SEO copied!')">Copy SEO</button></div></div>
+<div class="marketing-box"><h3>Email Promo</h3><textarea id="emailOutput" placeholder="Email copy will appear here..."></textarea><div class="output-actions"><button onclick="copyField('emailOutput','Email copied!')">Copy Email</button></div></div>
+<div class="marketing-box"><h3>Pinterest</h3><textarea id="pinterestOutput" placeholder="Pinterest copy will appear here..."></textarea><div class="output-actions"><button onclick="copyField('pinterestOutput','Pinterest copy copied!')">Copy Pinterest</button></div></div>
+<div class="marketing-box"><h3>TikTok + Reels</h3><textarea id="tiktokOutput" placeholder="TikTok and Reels copy will appear here..."></textarea><div class="output-actions"><button onclick="copyField('tiktokOutput','TikTok copy copied!')">Copy TikTok</button></div></div>
+<div class="marketing-box"><h3>Facebook + Instagram</h3><textarea id="socialOutput" placeholder="Facebook and Instagram copy will appear here..."></textarea><div class="output-actions"><button onclick="copyField('socialOutput','Social copy copied!')">Copy FB/IG</button></div></div>
+<div class="marketing-box"><h3>YouTube</h3><textarea id="youtubeOutput" placeholder="YouTube copy will appear here..."></textarea><div class="output-actions"><button onclick="copyField('youtubeOutput','YouTube copy copied!')">Copy YouTube</button></div></div>
+<div class="marketing-box"><h3>Ad Copy</h3><textarea id="adOutput" placeholder="Ad copy will appear here..."></textarea><div class="output-actions"><button onclick="copyField('adOutput','Ad copy copied!')">Copy Ad Copy</button></div></div>
+</div>
+
+<div class="buttons">
+<script>
+const skinRange = document.getElementById('skin');
+const skinValue = document.getElementById('skinValue');
+const genderFieldMap = {
+  Female: {
+    enable: ['hair','hairCustom','lashes','lashesCustom','makeup','makeupCustom','brows','browsCustom','nails','nailsCustom','hairGems','hairGemsCustom','earrings','earringsCustom','femaleOutfit','femaleOutfitCustom','femaleShoes','femaleShoesCustom','femaleAccessories','femaleAccessoriesCustom','edges','edgesCustom'],
+    disable: ['maleHair','maleHairCustom','maleOutfit','maleOutfitCustom','maleShoes','maleShoesCustom','maleAccessories','maleAccessoriesCustom']
+  },
+  Male: {
+    enable: ['maleHair','maleHairCustom','maleOutfit','maleOutfitCustom','maleShoes','maleShoesCustom','maleAccessories','maleAccessoriesCustom'],
+    disable: ['hair','hairCustom','lashes','lashesCustom','makeup','makeupCustom','brows','browsCustom','nails','nailsCustom','hairGems','hairGemsCustom','earrings','earringsCustom','femaleOutfit','femaleOutfitCustom','femaleShoes','femaleShoesCustom','femaleAccessories','femaleAccessoriesCustom','edges','edgesCustom']
+  },
+  None: {
+    enable: ['hair','hairCustom','maleHair','maleHairCustom','lashes','lashesCustom','makeup','makeupCustom','brows','browsCustom','nails','nailsCustom','hairGems','hairGemsCustom','earrings','earringsCustom','femaleOutfit','femaleOutfitCustom','femaleShoes','femaleShoesCustom','femaleAccessories','femaleAccessoriesCustom','maleOutfit','maleOutfitCustom','maleShoes','maleShoesCustom','maleAccessories','maleAccessoriesCustom','edges','edgesCustom'],
+    disable: []
+  }
+};
+
+skinRange.addEventListener('input', () => skinValue.textContent = skinRange.value);
+document.getElementById('gender').addEventListener('change', () => {
+  syncGenderState();
+  generate();
+});
+
+
+function getFieldWrapByControlId(id){
+  const el = document.getElementById(id);
+  return el ? el.closest('.field') : null;
+}
+
+function isFieldLockedByControlId(id){
+  const wrap = getFieldWrapByControlId(id);
+  return !!(wrap && wrap.dataset.locked === 'true');
+}
+
+function toggleFieldLockByButton(button){
+  const wrap = button.closest('.field');
+  if(!wrap) return;
+  const locked = wrap.dataset.locked === 'true';
+  wrap.dataset.locked = locked ? 'false' : 'true';
+  wrap.classList.toggle('is-locked', !locked);
+  button.setAttribute('aria-pressed', String(!locked));
+  button.title = !locked ? 'Unlock category' : 'Lock category';
+  button.textContent = !locked ? '🔒' : '🔓';
+}
+
+function initFieldLocks(){
+  document.querySelectorAll('.field').forEach((field, index) => {
+    const label = field.querySelector('label');
+    if(!label || field.querySelector('.field-lock')) return;
+    field.dataset.locked = field.dataset.locked || 'false';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'field-lock';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.title = 'Lock category';
+    btn.textContent = '🔓';
+    btn.onclick = () => toggleFieldLockByButton(btn);
+    label.appendChild(btn);
+  });
+}
+
+function valueOf(id){
+  return document.getElementById(id).value.trim();
+}
+
+function mergeValue(selectId, customId){
+  const selectVal = valueOf(selectId);
+  const customVal = valueOf(customId);
+  if(selectVal !== 'None' && customVal){
+    return selectVal + ', ' + customVal;
+  }
+  if(customVal) return customVal;
+  if(selectVal !== 'None') return selectVal;
+  return '';
+}
+
+function setFieldState(id, enabled){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.disabled = !enabled;
+  if(!enabled){
+    if(el.tagName === 'SELECT') el.selectedIndex = 0;
+    if(el.tagName === 'INPUT' && el.type === 'text') el.value = '';
+  }
+  const field = el.closest('.field');
+  if(field){
+    field.classList.toggle('disabled-field', !enabled);
+    field.style.display = enabled ? '' : 'none';
+  }
+}
+
+function syncGenderState(){
+  const selectedGender = valueOf('gender') || 'None';
+  const config = genderFieldMap[selectedGender] || genderFieldMap.None;
+  config.enable.forEach(id => setFieldState(id, true));
+  config.disable.forEach(id => setFieldState(id, false));
+}
+
+function randomIndex(select, allowNone = false){
+  const min = allowNone ? 0 : 1;
+  if(select.options.length <= min) return 0;
+  return Math.floor(Math.random() * (select.options.length - min)) + min;
+}
+
+function randomizeActiveSelect(id, allowNone = false){
+  const select = document.getElementById(id);
+  if(!select || select.disabled || isFieldLockedByControlId(id)) return;
+  select.selectedIndex = randomIndex(select, allowNone);
+}
+
+function generate(){
+  const gender = mergeValue('gender','genderCustom');
+  const race = mergeValue('race','raceCustom');
+  const skinTone = mergeValue('skinTone','skinCustom');
+  const eyes = mergeValue('eyes','eyesCustom');
+  const expression = mergeValue('expression','expressionCustom');
+  const features = mergeValue('features','featuresCustom');
+  const hair = valueOf('gender') === 'Male' ? mergeValue('maleHair','maleHairCustom') : mergeValue('hair','hairCustom');
+  const hairColor = mergeValue('hairColor','hairColorCustom');
+  const lashes = mergeValue('lashes','lashesCustom');
+  const makeup = mergeValue('makeup','makeupCustom');
+  const brows = mergeValue('brows','browsCustom');
+  const nails = mergeValue('nails','nailsCustom');
+  const hairGems = mergeValue('hairGems','hairGemsCustom');
+  const edges = mergeValue('edges','edgesCustom');
+  const earrings = mergeValue('earrings','earringsCustom');
+  const products = mergeValue('products','productsCustom');
+  const location = mergeValue('location','locationCustom');
+  const background = mergeValue('background','backgroundCustom');
+  const elements = mergeValue('elements','elementsCustom');
+  const ornate = mergeValue('ornate','ornateCustom');
+  const weather = mergeValue('weather','weatherCustom');
+  const fog = mergeValue('fog','fogCustom');
+  const timeOfDay = mergeValue('timeOfDay','timeOfDayCustom');
+  const season = mergeValue('season','seasonCustom');
+  const palette = mergeValue('palette','paletteCustom');
+  const artStyle = mergeValue('artStyle','artStyleCustom');
+  const effects = mergeValue('effects','effectsCustom');
+  const shadow = mergeValue('shadow','shadowCustom');
+  const camera = mergeValue('camera','cameraCustom');
+  const lighting = mergeValue('lighting','lightingCustom');
+  const textOption = mergeValue('textOption','textOptionCustom');
+  const customText = valueOf('customText');
+  const fontStyle = mergeValue('fontStyle','fontStyleCustom');
+  const textPlacement = mergeValue('textPlacement','textPlacementCustom') || 'Centered';
+  const songType = mergeValue('songType','songTypeCustom') || 'Short jingle';
+  const songGenre = valueOf('songGenre');
+  const songStyle = valueOf('songStyle');
+  const sunoNotes = valueOf('sunoNotes');
+
+  const rawGender = valueOf('gender');
+  const outfit = rawGender === 'Male'
+    ? mergeValue('maleOutfit','maleOutfitCustom')
+    : mergeValue('femaleOutfit','femaleOutfitCustom');
+  const shoes = rawGender === 'Male'
+    ? mergeValue('maleShoes','maleShoesCustom')
+    : mergeValue('femaleShoes','femaleShoesCustom');
+  const accessories = rawGender === 'Male'
+    ? mergeValue('maleAccessories','maleAccessoriesCustom')
+    : mergeValue('femaleAccessories','femaleAccessoriesCustom');
+
+  let subjectBits = [];
+  if(gender) subjectBits.push(gender.toLowerCase());
+  if(race) subjectBits.push('with ' + race + ' features');
+  if(skinTone) subjectBits.push(skinTone + ' skin tone');
+  if(eyes) subjectBits.push(eyes + ' eyes');
+  if(expression) subjectBits.push('facial expression ' + expression);
+  if(features) subjectBits.push('facial features ' + features);
+
+  let beautyBits = [];
+  if(hair) beautyBits.push(hair + ' hairstyle');
+  if(hairColor) beautyBits.push('in ' + hairColor);
+  if(lashes) beautyBits.push('lashes ' + lashes);
+  if(makeup) beautyBits.push('makeup style ' + makeup);
+  if(brows) beautyBits.push('eyebrows ' + brows);
+  if(nails) beautyBits.push('nails ' + nails);
+  if(hairGems) beautyBits.push('hair gems ' + hairGems);
+  if(earrings) beautyBits.push('earrings ' + earrings);
+  if(rawGender === 'Female' && edges) beautyBits.push('hair edges ' + edges);
+
+  let fashionBits = [];
+  if(outfit) fashionBits.push('wearing ' + outfit);
+  if(shoes) fashionBits.push('with ' + shoes);
+  if(accessories) fashionBits.push('accessories include ' + accessories);
+  if(products) fashionBits.push('props or product details ' + products);
+
+  let sceneBits = [];
+  if(location) sceneBits.push('scene location: ' + location);
+  if(background) sceneBits.push('background: ' + background);
+  if(elements) sceneBits.push('elements: ' + elements);
+  if(ornate) sceneBits.push('ornate elements: ' + ornate);
+  if(weather) sceneBits.push('weather: ' + weather);
+  if(fog) sceneBits.push('fog: ' + fog);
+  if(timeOfDay) sceneBits.push('time of day: ' + timeOfDay);
+  if(season) sceneBits.push('season: ' + season);
+  if(palette) sceneBits.push('color palette: ' + palette);
+
+  let styleBits = [];
+  if(artStyle) styleBits.push('rendered in ' + artStyle);
+  if(camera) styleBits.push('camera angle: ' + camera);
+  if(lighting) styleBits.push('lighting: ' + lighting);
+  if(effects) styleBits.push('effects: ' + effects);
+  if(shadow) styleBits.push('shadow style: ' + shadow);
+
+  let textBits = [];
+  if(textOption) textBits.push('text option: ' + textOption);
+  if(customText) textBits.push('text says "' + customText + '"');
+  if(fontStyle) textBits.push('font style: ' + fontStyle);
+  if(customText || textOption) textBits.push('text placement: ' + textPlacement);
+
+  const base = 'Glossy ultra-edgy exaggerated chibi style illustration of a confident';
+  const integrity = 'High shine skin highlights, glossy lips, oversized expressive eyes, bold outlines, ultra smooth airbrushed shading, luminous glow, playful attitude, trendy urban street-fashion energy, and a polished glossy finish. Keep the style rich, vibrant, and exaggerated, never dull or ashy.';
+
+  const prompt = [
+    base + ' ' + subjectBits.join(', ') + '.',
+    beautyBits.length ? beautyBits.join(', ') + '.' : '',
+    fashionBits.length ? fashionBits.join(', ') + '.' : '',
+    sceneBits.length ? sceneBits.join('. ') + '.' : '',
+    styleBits.length ? styleBits.join('. ') + '.' : '',
+    textBits.length ? textBits.join('. ') + '.' : '',
+    'Skin tone slider reference level: ' + skinRange.value + '.',
+    integrity
+  ].filter(Boolean).join(' ');
+
+  const finalPrompt = prompt.replace(/\s+/g,' ').trim();
+  document.getElementById('output').value = finalPrompt;
+
+  const videoScript = [
+    'Create a fast-paced urban glossy chibi promo video based on this character concept: ' + finalPrompt,
+    'Length: 15 to 30 seconds.',
+    'Scene flow: Start with a bold intro shot, then show 3 to 5 quick glam street-fashion cuts, then end with a hero pose and product-style final frame.',
+    'Shot ideas: close-up face reveal, full-body drip shot, turning pose, accessory detail shot, background flex shot, text overlay moment.',
+    'Motion: subtle bounce, hair sway, blink, sparkle flicker, camera push-in, confident pose switch, flashy transitions.',
+    customText ? 'On-screen text: use "' + customText + '" as the main text moment.' : 'On-screen text: add a short bold urban phrase that matches the character vibe.',
+    'Keep the look exaggerated, glossy, colorful, confident, and playful. Never make it dull, dusty, flat, or realistic in a boring way.',
+    'Format it for vertical social video and keep every shot visually punchy.'
+  ].join(' ');
+
+  let weirdness = ((document.getElementById('weirdnessSlider') || {}).value || '15') + '%';
+  let styleInfluence = ((document.getElementById('styleInfluenceSlider') || {}).value || '60') + '%';
+  let audioInfluence = ((document.getElementById('audioInfluenceSlider') || {}).value || '40') + '%';
+
+  const genreLine = songGenre ? 'Genre: ' + songGenre + '.' : 'Genre: open choice, urban-friendly, whatever matches the character best.';
+  const styleLine = songStyle ? 'Style and mood: ' + songStyle + '.' : 'Style and mood: glossy, catchy, confident, playful, stylish, and flexible enough to go hard or cute.';
+  const sunoScript = [
+    'Write a ' + songType + ' for an urban glossy chibi character campaign.',
+    genreLine,
+    styleLine,
+    'Make it hooky, easy to remember, and built for social media replay value.',
+    customText ? 'Use "' + customText + '" as the title, chorus idea, tagline, or repeating lyric anchor.' : 'Create a catchy repeatable hook that feels like a character slogan or mini anthem.',
+    'The lyrics should fit a bold urban chibi aesthetic: flashy, cute, stylish, confident, animated, streetwear-forward, and full of attitude.',
+    'Include a short chorus, strong opener, and clear rhythmic bounce.',
+    sunoNotes ? 'Extra notes: ' + sunoNotes + '.' : 'Extra notes: feel free to choose the best instruments, tempo, and groove for the vibe.',
+    'Suggested Weirdness: ' + weirdness + '.',
+    'Suggested Style Influence: ' + styleInfluence + '.',
+    'Suggested Audio Influence: ' + audioInfluence + '.',
+    'Keep freedom for the final genre blend and production direction so the song can move between pop, hip-hop, Jersey club, trap, R&B, drill, hyperpop, or any urban-adjacent sound that fits best.'
+  ].join(' ');
+
+
+  document.getElementById('videoOutput').value = videoScript;
+  document.getElementById('sunoOutput').value = sunoScript;
+
+  setAnimatedTheme();
+
+  const brandName = valueOf('brandName') || 'GlamorousGrammyGlowUp Urban Chibi Generator';
+  const webpageUrl = valueOf('webpageUrl') || '[insert your link]';
+  const offerType = mergeValue('offerType','offerTypeCustom') || 'prompt generator';
+  const targetAudience = valueOf('targetAudience') || 'creators who want bold glossy AI art faster';
+  const offerHook = valueOf('offerHook') || 'Create glossy urban chibi prompts in minutes';
+  const ctaGoal = mergeValue('ctaGoal','ctaGoalCustom') || 'Visit webpage';
+  const themeWord = customText || expression || 'bossed-up urban chibi';
+  const socialFocus = [race, outfit, background, artStyle].filter(Boolean).join(', ');
+
+  const captions = [
+    'Caption 1: ' + offerHook + ' with ' + brandName + '. Build a ' + themeWord + ' look, customize every detail, and turn one idea into image, video, and song prompts. ' + ctaGoal + ': ' + webpageUrl,
+    'Caption 2: Stop wasting time guessing prompts. ' + brandName + ' helps ' + targetAudience + ' create glossy urban chibi content that actually looks expensive. Tap in here: ' + webpageUrl,
+    'Caption 3: From character design to promo copy, this ' + offerType + ' does the heavy lifting. Build it. Copy it. Post it. Sell it. ' + webpageUrl,
+    'CTA ideas: Shop now | Grab yours today | Visit the page | Watch the demo | Save this for later | Comment CHIBI for the link'
+  ].join('\n\n');
+
+  const seo = [
+    'SEO title ideas: ' + brandName + ' | Urban Chibi AI Prompt Generator | Glossy Character Creator',
+    'SEO description: ' + brandName + ' is a ' + offerType + ' that helps ' + targetAudience + ' create bold glossy urban chibi image prompts, video scripts, Suno song prompts, and ready-to-post marketing copy from one workflow.',
+    'Keywords: urban chibi prompt generator, glossy chibi prompts, AI character creator, urban cartoon prompts, exaggerated chibi generator, streetwear character prompts, AI prompt tool, glam chibi art prompts, social media prompt generator, digital product for creators',
+    'Hashtags: #UrbanChibi #ChibiPromptGenerator #AIPromptGenerator #GlossyChibi #StreetwearChibi #DigitalProducts #ContentCreatorTools #AIArtPrompts #WomenInAI #PromptEngineering #CreateAndSell #GlamorousGrammyGlowUp'
+  ].join('\n\n');
+
+  const email = [
+    'Subject line: ' + offerHook,
+    'Preview text: Build glossy urban chibi content faster and turn ideas into posts that actually sell.',
+    'Email body: Hey beauty, if you\'ve been trying to create bold AI content without spending forever writing prompts, ' + brandName + ' is your shortcut. It helps you build a full urban chibi concept, then gives you the image prompt, a video script, a Suno song prompt, and marketing copy in one place. Today\'s vibe: ' + themeWord + '. Best part? You can go from idea to posted content fast. ' + ctaGoal + ' here: ' + webpageUrl
+  ].join('\n\n');
+
+  const pinterest = [
+    'Pin title: ' + brandName + ' for Glossy Urban Chibi AI Art',
+    'Pin description: Create bold, glossy urban chibi characters with customizable fashion, beauty, backgrounds, marketing copy, and promo scripts. Perfect for creators selling digital products and posting AI content. Link: ' + webpageUrl,
+    'Pinterest keywords: urban chibi art, chibi prompt generator, AI digital products, glossy cartoon character, creator tools, AI prompt business'
+  ].join('\n\n');
+
+  const tiktok = [
+    'Hook: I found the prompt generator that makes glossy urban chibi content look expensive.',
+    'Overlay text: ' + offerHook,
+    'Talking points: show the generator, pick the vibe, hit generate, reveal image prompt, reveal video and Suno prompt, end with the marketing copy section.',
+    'CTA: Comment LINK or head to ' + webpageUrl,
+    'Hashtags: #TikTokMadeMeBuyIt #ContentCreator #AIPrompts #UrbanChibi #DigitalProductSeller #FacelessMarketing'
+  ].join('\n\n');
+
+  const social = [
+    'Instagram caption: Build a whole glossy urban chibi campaign from one generator. Character prompt, video prompt, song prompt, captions, hashtags, and ad copy in one place. ' + ctaGoal + ' at ' + webpageUrl,
+    'Facebook post: If you create content or sell digital products, this is the kind of tool that saves time and makes your work look polished. ' + brandName + ' helps you generate a full campaign around a character vibe like ' + themeWord + '. Check it out: ' + webpageUrl,
+    'Best CTA buttons: Learn More | Shop Now | Sign Up | Send Message'
+  ].join('\n\n');
+
+  const youtube = [
+    'Title ideas: How I Create Glossy Urban Chibi AI Content Fast | ' + brandName + ' Demo | Best Urban Chibi Prompt Generator',
+    'Description: In this video I\'m showing how I use ' + brandName + ' to create glossy urban chibi image prompts, video scripts, and Suno song prompts, plus instant captions and ad copy. ' + ctaGoal + ': ' + webpageUrl,
+    'Tags: urban chibi, AI prompt generator, digital products, content creation, AI art, glossy chibi, character design, prompt engineering'
+  ].join('\n\n');
+
+  const ads = [
+    'Ad 1: Your prompts shouldn\'t look basic. ' + brandName + ' helps you create glossy urban chibi content, promo scripts, and sales copy from one dashboard. ' + ctaGoal + ': ' + webpageUrl,
+    'Ad 2: Built for ' + targetAudience + '. Create bold character content with fashion, beauty, scene controls, plus ready-made social copy. No more blank screen. ' + webpageUrl,
+    'Ad angle ideas: time-saving angle | creator confidence angle | done-for-you marketing angle | sell-your-digital-products angle',
+    'Suggested audience notes: people interested in AI art, digital products, Canva, content creation, Etsy, Payhip, Beacons, ChatGPT, side hustles'
+  ].join('\n\n');
+
+  document.getElementById('captionOutput').value = captions;
+  document.getElementById('seoOutput').value = seo;
+  document.getElementById('emailOutput').value = email;
+  document.getElementById('pinterestOutput').value = pinterest;
+  document.getElementById('tiktokOutput').value = tiktok;
+  document.getElementById('socialOutput').value = social;
+  document.getElementById('youtubeOutput').value = youtube;
+  document.getElementById('adOutput').value = ads;
+}
+
+
+function setAnimatedTheme(){
+  const palette = (valueOf('palette') || '').toLowerCase();
+  const background = (valueOf('background') || '').toLowerCase();
+  let a1 = 'rgba(245,158,11,0.18)', a2 = 'rgba(79,70,229,0.22)', a3 = 'rgba(255,255,255,0.06)';
+  if(palette.includes('pink') || background.includes('pink')){ a1='rgba(255,20,147,0.18)'; a2='rgba(255,105,180,0.18)'; a3='rgba(255,255,255,0.06)'; }
+  else if(palette.includes('emerald') || palette.includes('teal')){ a1='rgba(0,212,170,0.18)'; a2='rgba(79,70,229,0.20)'; a3='rgba(245,158,11,0.08)'; }
+  else if(background.includes('neon') || background.includes('graffiti') || background.includes('city')){ a1='rgba(255,0,102,0.15)'; a2='rgba(0,212,255,0.16)'; a3='rgba(255,255,255,0.05)'; }
+  else if(palette.includes('gold')){ a1='rgba(245,158,11,0.18)'; a2='rgba(255,215,0,0.12)'; a3='rgba(79,70,229,0.12)'; }
+  document.documentElement.style.setProperty('--bg-accent-1', a1);
+  document.documentElement.style.setProperty('--bg-accent-2', a2);
+  document.documentElement.style.setProperty('--bg-accent-3', a3);
+}
+
+function scrollToTop(){
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function scrollToBottom(){
+  window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+}
+
+function copyField(id, message){
+  const text = document.getElementById(id);
+  text.select();
+  text.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  alert(message || 'Copied!');
+}
+
+function randomize(){
+  document.querySelectorAll('input[type="text"]').forEach(input => {
+    if(input.id !== 'customText' && !isFieldLockedByControlId(input.id)) input.value = '';
+  });
+  if(!isFieldLockedByControlId('customText')){
+    document.getElementById('customText').value = '';
+  }
+
+  const genderSelect = document.getElementById('gender');
+  if(!isFieldLockedByControlId('gender')){
+    genderSelect.selectedIndex = randomIndex(genderSelect, false);
+  }
+  syncGenderState();
+
+  const alwaysRandomize = [
+    'race','skinTone','eyes','expression','features','hairColor','lashes','makeup','brows','nails','hairGems','earrings',
+    'products','location','background','elements','ornate','weather','fog','timeOfDay','season','palette','artStyle','effects','shadow','camera','lighting','textOption','fontStyle','songType'
+  ];
+  alwaysRandomize.forEach(id => randomizeActiveSelect(id, false));
+
+  if(valueOf('gender') === 'Female'){
+    ['hair','femaleOutfit','femaleShoes','femaleAccessories','edges'].forEach(id => randomizeActiveSelect(id, false));
+  } else if(valueOf('gender') === 'Male'){
+    ['maleHair','maleOutfit','maleShoes','maleAccessories'].forEach(id => randomizeActiveSelect(id, false));
+  }
+
+  const textOptionValue = valueOf('textOption');
+  if(textOptionValue === 'No text overlay'){
+    if(!isFieldLockedByControlId('customText')){
+      document.getElementById('customText').value = '';
+    }
+    if(!isFieldLockedByControlId('fontStyle')){
+      document.getElementById('fontStyle').selectedIndex = 0;
+    }
+  } else {
+    randomizeActiveSelect('textPlacement', true);
+  }
+
+  if(!isFieldLockedByControlId('skin')){
+    skinRange.value = Math.floor(Math.random() * 10) + 1;
+    skinValue.textContent = skinRange.value;
+  }
+  generate();
+}
+
+function copyPrompt(){
+  const text = document.getElementById('output');
+  text.select();
+  text.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  alert('Prompt copied!');
+}
+
+function copyVideoScript(){
+  const text = document.getElementById('videoOutput');
+  text.select();
+  text.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  alert('Video script copied!');
+}
+
+function copySunoScript(){
+  const text = document.getElementById('sunoOutput');
+  text.select();
+  text.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  alert('Suno script copied!');
+}
+
+function resetForm(){
+  document.querySelectorAll('select').forEach(select => {
+    if(!isFieldLockedByControlId(select.id)) select.selectedIndex = 0;
+  });
+  document.querySelectorAll('input[type="text"]').forEach(input => {
+    if(!isFieldLockedByControlId(input.id)) input.value = '';
+  });
+  if(!isFieldLockedByControlId('skin')){
+    skinRange.value = 5;
+    skinValue.textContent = '5';
+  }
+  document.getElementById('output').value = '';
+  document.getElementById('videoOutput').value = '';
+  document.getElementById('sunoOutput').value = '';
+  ['captionOutput','seoOutput','emailOutput','pinterestOutput','tiktokOutput','socialOutput','youtubeOutput','adOutput'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  
+
+}
+
+const glamPresets = {
+  "Block Party Glow": {
+    "gender": "Female",
+    "race": "Jamaican",
+    "skinTone": "Honey tan",
+    "eyes": "Hazel",
+    "expression": "Playful wink",
+    "features": "Dimples",
+    "hair": "Knotless braids",
+    "hairColor": "Honey blonde",
+    "lashes": "Wispy lashes",
+    "makeup": "Soft glam",
+    "brows": "Arched brows",
+    "nails": "French tip nails",
+    "hairGems": "Butterfly clips",
+    "edges": "Sleek swoop edges",
+    "earrings": "Bamboo earrings",
+    "femaleOutfit": "Rhinestone tracksuit",
+    "femaleShoes": "Jordan 4s",
+    "femaleAccessories": "Layered chains",
+    "products": "Chibi sticker sheet",
+    "location": "Basketball court",
+    "background": "Color splash",
+    "elements": "Boom box",
+    "ornate": "Glossy pedestals",
+    "weather": "Sunny day",
+    "fog": "Soft glow fog",
+    "timeOfDay": "Golden hour",
+    "season": "Summer",
+    "palette": "Royal blue and gold",
+    "artStyle": "Glossy 3D chibi",
+    "effects": "Sparkle burst",
+    "shadow": "Soft drop shadow",
+    "camera": "Full body front view",
+    "lighting": "Radiant front lighting",
+    "textOption": "Catchy headline",
+    "fontStyle": "Bubble graffiti",
+    "textPlacement": "Top center",
+    "songType": "30-second jingle",
+    "offerType": "Generator bundle",
+    "ctaGoal": "Shop now"
+  },
+  "Bodega Baddie": {
+    "gender": "Female",
+    "race": "Afro-Latina",
+    "skinTone": "Caramel",
+    "eyes": "Brown",
+    "expression": "Unbothered",
+    "features": "Glossy lips",
+    "hair": "Sleek buss-down",
+    "hairColor": "Jet black",
+    "lashes": "Doll lashes",
+    "makeup": "Glossy glam",
+    "brows": "Clean sculpted brows",
+    "nails": "Long acrylics",
+    "hairGems": "Rhinestone clips",
+    "edges": "Heart edges",
+    "earrings": "Gold hoops",
+    "femaleOutfit": "Tube top with baggy jeans",
+    "femaleShoes": "Air Force 1s",
+    "femaleAccessories": "Mini purse",
+    "products": "Premium prompt generator",
+    "location": "Bodega front",
+    "background": "Street poster wall",
+    "elements": "Shopping bags",
+    "ornate": "Chrome hearts",
+    "weather": "Warm evening",
+    "fog": "Street mist",
+    "timeOfDay": "Late afternoon",
+    "season": "Spring",
+    "palette": "Cherry red and black",
+    "artStyle": "Luxury urban chibi",
+    "effects": "Gloss boost",
+    "shadow": "Streetlight shadow",
+    "camera": "Looking back shot",
+    "lighting": "Streetlight glow",
+    "textOption": "Street quote",
+    "fontStyle": "Street bold",
+    "textPlacement": "Bottom center",
+    "songType": "R&B teaser",
+    "offerType": "Prompt generator",
+    "ctaGoal": "Tap the link"
+  },
+  "City Boy Flash": {
+    "gender": "Male",
+    "race": "African American",
+    "skinTone": "Mocha",
+    "eyes": "Black",
+    "expression": "Bossed up",
+    "features": "Sharp jawline",
+    "hair": "Burst fade curls",
+    "hairColor": "Jet black",
+    "lashes": "Natural lifted lashes",
+    "makeup": "None",
+    "brows": "Bold brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Diamond studs",
+    "maleOutfit": "Designer tracksuit",
+    "maleShoes": "Jordan Retros",
+    "maleAccessories": "Cuban link",
+    "products": "Video thumbnail kit",
+    "location": "Street block",
+    "background": "City skyline blur",
+    "elements": "Flash effect",
+    "ornate": "Laser grid",
+    "weather": "Clear night",
+    "fog": "Ambient haze",
+    "timeOfDay": "Night",
+    "season": "All-season",
+    "palette": "Black and gold",
+    "artStyle": "Commercial beauty chibi",
+    "effects": "Flash glare",
+    "shadow": "Hard flash shadow",
+    "camera": "Hero low angle",
+    "lighting": "Flash photography",
+    "textOption": "One-word statement",
+    "fontStyle": "Poster bold",
+    "textPlacement": "Bottom right",
+    "songType": "Hype intro",
+    "offerType": "Social media bundle",
+    "ctaGoal": "Buy now"
+  },
+  "Club Night Shine": {
+    "gender": "Female",
+    "race": "Dominican",
+    "skinTone": "Amber bronze",
+    "eyes": "Topaz",
+    "expression": "Sultry gaze",
+    "features": "High cheekbones",
+    "hair": "Wet look bob",
+    "hairColor": "Cherry cola",
+    "lashes": "Cat-eye lashes",
+    "makeup": "Berry glam",
+    "brows": "Brushed-up brows",
+    "nails": "Chrome nails",
+    "hairGems": "Crystal pins",
+    "edges": "Glossy laid edges",
+    "earrings": "Dramatic drops",
+    "femaleOutfit": "Mini dress with varsity jacket",
+    "femaleShoes": "Clear heels",
+    "femaleAccessories": "Sparkle clutch",
+    "products": "Luxury mockup set",
+    "location": "Club entrance",
+    "background": "VIP club lights",
+    "elements": "Phone flashes",
+    "ornate": "Velvet ropes",
+    "weather": "Clear night",
+    "fog": "Neon fog",
+    "timeOfDay": "After midnight",
+    "season": "Festival season",
+    "palette": "Fuchsia and silver",
+    "artStyle": "Hyper-gloss fashion chibi",
+    "effects": "Liquid shine",
+    "shadow": "Bold contrast shadow",
+    "camera": "Tilted editorial shot",
+    "lighting": "Vibrant club lighting",
+    "textOption": "Glow wordmark",
+    "fontStyle": "Gloss script",
+    "textPlacement": "Center",
+    "songType": "Club bounce cut",
+    "offerType": "Exclusive vault",
+    "ctaGoal": "Get instant access"
+  },
+  "Corner Store Cute": {
+    "gender": "Female",
+    "race": "Puerto Rican",
+    "skinTone": "Golden brown",
+    "eyes": "Honey",
+    "expression": "Cute pout",
+    "features": "Beauty mark",
+    "hair": "Half-up half-down quick weave",
+    "hairColor": "Caramel blonde",
+    "lashes": "Soft glam lashes",
+    "makeup": "Peachy glam",
+    "brows": "Soft fluffy brows",
+    "nails": "Pink ombré nails",
+    "hairGems": "Mini bows",
+    "edges": "Soft curl edges",
+    "earrings": "Heart hoops",
+    "femaleOutfit": "Graphic tee with biker shorts",
+    "femaleShoes": "Dunks",
+    "femaleAccessories": "Bedazzled phone",
+    "products": "Instagram reel pack",
+    "location": "Corner store",
+    "background": "Abstract paint drips",
+    "elements": "Neon signs",
+    "ornate": "Heart frames",
+    "weather": "Soft sunshine",
+    "fog": "Dream mist",
+    "timeOfDay": "Midday",
+    "season": "Late spring",
+    "palette": "Pink and white",
+    "artStyle": "Cute luxury cartoon",
+    "effects": "Beauty blur",
+    "shadow": "Soft airbrush shadow",
+    "camera": "Eye level",
+    "lighting": "Soft glam lighting",
+    "textOption": "Mini slogan",
+    "fontStyle": "Candy script",
+    "textPlacement": "Upper third center",
+    "songType": "Feel-good jingle",
+    "offerType": "Caption bundle",
+    "ctaGoal": "Follow for more"
+  },
+  "Downtown Drip": {
+    "gender": "Male",
+    "race": "Nigerian",
+    "skinTone": "Deep bronze",
+    "eyes": "Amber brown",
+    "expression": "Cool smirk",
+    "features": "Defined cheekbones",
+    "hair": "Taper fade",
+    "hairColor": "Blue-black",
+    "lashes": "No lashes",
+    "makeup": "None",
+    "brows": "Defined brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Bar studs",
+    "maleOutfit": "Luxury street set",
+    "maleShoes": "Designer trainers",
+    "maleAccessories": "Watch",
+    "products": "Brand flyer kit",
+    "location": "Crosswalk downtown",
+    "background": "Chrome gradient",
+    "elements": "Taxi blur",
+    "ornate": "Reflective panels",
+    "weather": "Crisp fall air",
+    "fog": "Cool fog",
+    "timeOfDay": "Rush hour",
+    "season": "Autumn",
+    "palette": "Silver and black",
+    "artStyle": "Urban doll style",
+    "effects": "Chrome shine",
+    "shadow": "Elongated shadow",
+    "camera": "Walking shot",
+    "lighting": "Crisp daylight",
+    "textOption": "Brand name overlay",
+    "fontStyle": "Tall condensed sans",
+    "textPlacement": "Top left",
+    "songType": "Promo anthem",
+    "offerType": "Branding kit",
+    "ctaGoal": "Visit my website"
+  },
+  "Flash Glam Doll": {
+    "gender": "Female",
+    "race": "African American",
+    "skinTone": "Rich cocoa",
+    "eyes": "Rose gold",
+    "expression": "Glossy glam stare",
+    "features": "Full lips",
+    "hair": "Pixie swoop",
+    "hairColor": "Platinum",
+    "lashes": "Mega volume lashes",
+    "makeup": "Y2K glam",
+    "brows": "Skinny brows",
+    "nails": "Mirror nails",
+    "hairGems": "Diamond barrettes",
+    "edges": "Statement swirl edges",
+    "earrings": "Crystal hoops",
+    "femaleOutfit": "Corset top with cargo skirt",
+    "femaleShoes": "Platform sneakers",
+    "femaleAccessories": "Nameplate necklace",
+    "products": "Exclusive preset pack",
+    "location": "Pink urban studio",
+    "background": "Prism light wall",
+    "elements": "Polaroid frame",
+    "ornate": "Prism beams",
+    "weather": "Clear night",
+    "fog": "Pink fog",
+    "timeOfDay": "Prime time",
+    "season": "All-season",
+    "palette": "Rose gold and blush",
+    "artStyle": "Y2K glam doll",
+    "effects": "Y2K sparkle",
+    "shadow": "Glossy shadow",
+    "camera": "Mirror selfie angle",
+    "lighting": "Y2K flash lighting",
+    "textOption": "Collection title",
+    "fontStyle": "Y2K rounded font",
+    "textPlacement": "Center right",
+    "songType": "Content creator anthem",
+    "offerType": "Preset pack",
+    "ctaGoal": "Unlock the vault"
+  },
+  "Gloss Boss Babe": {
+    "gender": "Female",
+    "race": "African American",
+    "skinTone": "Deep mahogany",
+    "eyes": "Emerald",
+    "expression": "Confident stare",
+    "features": "Snatched cheekbones",
+    "hair": "Long bone-straight hair",
+    "hairColor": "Blue-black",
+    "lashes": "XL glam lashes",
+    "makeup": "Trap glam",
+    "brows": "Laminated brows",
+    "nails": "XL coffin nails",
+    "hairGems": "Hair chains",
+    "edges": "Ultra laid edges",
+    "earrings": "Bamboo earrings",
+    "femaleOutfit": "Street luxe two-piece set",
+    "femaleShoes": "Thigh-high boots",
+    "femaleAccessories": "Waist chain",
+    "products": "Generator vault",
+    "location": "Penthouse lounge",
+    "background": "Glossy black studio",
+    "elements": "Diamond sparkles",
+    "ornate": "Diamond borders",
+    "weather": "Clear night",
+    "fog": "Luxury haze",
+    "timeOfDay": "Midnight",
+    "season": "All-season",
+    "palette": "Black and gold",
+    "artStyle": "Exaggerated glossy chibi",
+    "effects": "Radiant shine",
+    "shadow": "Reflective floor shadow",
+    "camera": "Centered full body",
+    "lighting": "High-shine lighting",
+    "textOption": "Power phrase",
+    "fontStyle": "Chrome serif",
+    "textPlacement": "Center",
+    "songType": "Luxury promo song",
+    "offerType": "Generator bundle",
+    "ctaGoal": "Buy now"
+  },
+  "Golden Hour Flex": {
+    "gender": "Male",
+    "race": "Jamaican",
+    "skinTone": "Warm bronze",
+    "eyes": "Golden hazel",
+    "expression": "Raised brow",
+    "features": "Bright smile",
+    "hair": "Starter locs",
+    "hairColor": "Warm auburn",
+    "lashes": "Natural lifted lashes",
+    "makeup": "None",
+    "brows": "Natural full brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Studded hoops",
+    "maleOutfit": "Track jacket with stacked denim",
+    "maleShoes": "Timberland boots",
+    "maleAccessories": "Pendant chain",
+    "products": "Hook script pack",
+    "location": "Urban bridge",
+    "background": "Sunset sky",
+    "elements": "Light leaks",
+    "ornate": "Gold chains",
+    "weather": "Golden hour",
+    "fog": "Warm haze",
+    "timeOfDay": "Golden hour",
+    "season": "Summer",
+    "palette": "Red and gold",
+    "artStyle": "Streetwear doll style",
+    "effects": "Luxe haze",
+    "shadow": "Warm sunset shadow",
+    "camera": "Three-quarter view",
+    "lighting": "Golden hour city light",
+    "textOption": "Tagline text",
+    "fontStyle": "Clean luxury sans",
+    "textPlacement": "Top center",
+    "songType": "60-second anthem",
+    "offerType": "Hook swipe file",
+    "ctaGoal": "Check it out"
+  },
+  "Graffiti Princess": {
+    "gender": "Female",
+    "race": "Caribbean",
+    "skinTone": "Toffee brown",
+    "eyes": "Teal",
+    "expression": "Pretty but dangerous",
+    "features": "Doe eyes",
+    "hair": "Colored curls",
+    "hairColor": "Hot pink",
+    "lashes": "Spiked lashes",
+    "makeup": "Color-pop glam",
+    "brows": "Bold brows",
+    "nails": "Street art nails",
+    "hairGems": "Gem butterflies",
+    "edges": "Fancy swirl edges",
+    "earrings": "Door knocker hoops",
+    "femaleOutfit": "Y2K baby tee with cargos",
+    "femaleShoes": "Chunky sneakers",
+    "femaleAccessories": "Crossbody mini bag",
+    "products": "Canva template pack",
+    "location": "Graffiti alley",
+    "background": "Graffiti wall",
+    "elements": "Graffiti tags",
+    "ornate": "Neon crowns",
+    "weather": "Warm evening",
+    "fog": "Purple haze",
+    "timeOfDay": "Neon dusk",
+    "season": "Summer",
+    "palette": "Hot pink and black",
+    "artStyle": "Pop-art street chibi",
+    "effects": "Neon outline glow",
+    "shadow": "Neon rim shadow",
+    "camera": "Dutch angle",
+    "lighting": "Blue neon lighting",
+    "textOption": "Street quote",
+    "fontStyle": "Spray paint font",
+    "textPlacement": "Diagonal across image",
+    "songType": "TikTok challenge hook",
+    "offerType": "Canva template",
+    "ctaGoal": "Tap the link"
+  },
+  "Luxury Rooftop": {
+    "gender": "Female",
+    "race": "Black British",
+    "skinTone": "Sable brown",
+    "eyes": "Champagne",
+    "expression": "Soft smirk",
+    "features": "High cheekbones",
+    "hair": "Silk press",
+    "hairColor": "Chocolate brown",
+    "lashes": "Fluttery lashes",
+    "makeup": "Soft glam",
+    "brows": "High arch brows",
+    "nails": "Glossy nude nails",
+    "hairGems": "Pearl clips",
+    "edges": "Elegant swirl edges",
+    "earrings": "Pearl hoops",
+    "femaleOutfit": "Velour tracksuit set",
+    "femaleShoes": "Designer low tops",
+    "femaleAccessories": "Rose gold watch",
+    "products": "Luxury mockup set",
+    "location": "Rooftop lounge",
+    "background": "City skyline blur",
+    "elements": "Glow trails",
+    "ornate": "Pearl drapes",
+    "weather": "Blue hour",
+    "fog": "Aura mist",
+    "timeOfDay": "Blue hour",
+    "season": "Spring",
+    "palette": "Nude and rose gold",
+    "artStyle": "Runway glam chibi",
+    "effects": "Velvet glow",
+    "shadow": "Beauty shadow",
+    "camera": "Editorial side angle",
+    "lighting": "Luxury soft light",
+    "textOption": "Luxury tagline",
+    "fontStyle": "Elegant glam serif",
+    "textPlacement": "Upper third right",
+    "songType": "Mini love song",
+    "offerType": "Mockup bundle",
+    "ctaGoal": "View the collection"
+  },
+  "Midnight Motion": {
+    "gender": "Male",
+    "race": "Haitian",
+    "skinTone": "Walnut",
+    "eyes": "Steel blue",
+    "expression": "Serious face",
+    "features": "Chiseled face",
+    "hair": "Braids to the back",
+    "hairColor": "Jet black",
+    "lashes": "No lashes",
+    "makeup": "None",
+    "brows": "Sharp arch brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Cross earrings",
+    "maleOutfit": "Leather jacket with black denim",
+    "maleShoes": "High-top boots",
+    "maleAccessories": "Wallet chain",
+    "products": "Ad copy pack",
+    "location": "Parking garage",
+    "background": "Mirror reflections",
+    "elements": "Luxury car",
+    "ornate": "Metallic ribbons",
+    "weather": "Wet pavement",
+    "fog": "Midnight fog",
+    "timeOfDay": "Late night",
+    "season": "All-season",
+    "palette": "Cobalt and chrome",
+    "artStyle": "Premium ad chibi",
+    "effects": "Motion blur",
+    "shadow": "Wet pavement shadow",
+    "camera": "Low angle",
+    "lighting": "Moody night lighting",
+    "textOption": "Promo phrase",
+    "fontStyle": "Sharp italic display",
+    "textPlacement": "Bottom left",
+    "songType": "Short hype track",
+    "offerType": "Marketing kit",
+    "ctaGoal": "Browse the shop"
+  },
+  "Mirror Selfie Heat": {
+    "gender": "Female",
+    "race": "Dominican",
+    "skinTone": "Toffee",
+    "eyes": "Brown",
+    "expression": "Flirty grin",
+    "features": "Soft pout",
+    "hair": "Long sleek ponytail",
+    "hairColor": "Cherry red",
+    "lashes": "Wet look lashes",
+    "makeup": "Glossy glam",
+    "brows": "Brushed-up brows",
+    "nails": "Jelly nails",
+    "hairGems": "Rose gold clips",
+    "edges": "Wet-look edges",
+    "earrings": "Mini studs",
+    "femaleOutfit": "Cutout catsuit with sneakers",
+    "femaleShoes": "Designer slides",
+    "femaleAccessories": "Bedazzled phone",
+    "products": "Story template pack",
+    "location": "Luxury bathroom mirror",
+    "background": "Rose gold shimmer",
+    "elements": "Phone flashes",
+    "ornate": "Jeweled frames",
+    "weather": "Clear night",
+    "fog": "Shimmer haze",
+    "timeOfDay": "Late night",
+    "season": "All-season",
+    "palette": "Rose gold and blush",
+    "artStyle": "Beauty campaign chibi",
+    "effects": "Mirror shine",
+    "shadow": "Contour shadow",
+    "camera": "Mirror selfie angle",
+    "lighting": "Ring light catchlight",
+    "textOption": "Signature phrase",
+    "fontStyle": "Signature script",
+    "textPlacement": "Top right",
+    "songType": "Short chorus loop",
+    "offerType": "Social media bundle",
+    "ctaGoal": "Comment below"
+  },
+  "Neon Heart Vibe": {
+    "gender": "Female",
+    "race": "Latina",
+    "skinTone": "Amber bronze",
+    "eyes": "Pink",
+    "expression": "Dreamy smile",
+    "features": "Heart-shaped face",
+    "hair": "Space buns",
+    "hairColor": "Cotton candy pink",
+    "lashes": "Anime lashes",
+    "makeup": "Pink glam",
+    "brows": "Rounded brows",
+    "nails": "Heart nails",
+    "hairGems": "Heart clips",
+    "edges": "Soft heart edges",
+    "earrings": "Heart hoops",
+    "femaleOutfit": "Skirt set with combat boots",
+    "femaleShoes": "Y2K platforms",
+    "femaleAccessories": "Heart bag",
+    "products": "Pinterest pin set",
+    "location": "Neon alley",
+    "background": "Neon hearts",
+    "elements": "Floating hearts",
+    "ornate": "Heart frames",
+    "weather": "Twilight",
+    "fog": "Rose mist",
+    "timeOfDay": "Twilight",
+    "season": "Festival season",
+    "palette": "Fuchsia and silver",
+    "artStyle": "Candy gloss chibi",
+    "effects": "Halo light",
+    "shadow": "Pink glow shadow",
+    "camera": "Selfie angle",
+    "lighting": "Pink glow lighting",
+    "textOption": "Story title",
+    "fontStyle": "Curvy display",
+    "textPlacement": "Sky area centered",
+    "songType": "Trend song",
+    "offerType": "Pinterest pack",
+    "ctaGoal": "Learn more"
+  },
+  "Penthouse Player": {
+    "gender": "Male",
+    "race": "Middle Eastern",
+    "skinTone": "Olive tan",
+    "eyes": "Green",
+    "expression": "Icy confidence",
+    "features": "Sharp jawline",
+    "hair": "Wolf cut curls",
+    "hairColor": "Mink brown",
+    "lashes": "Mascara lashes",
+    "makeup": "Bronzed glam",
+    "brows": "Groomed brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Diamond studs",
+    "maleOutfit": "Monogram jacket with black jeans",
+    "maleShoes": "Designer low tops",
+    "maleAccessories": "Monogram bag",
+    "products": "Sales funnel kit",
+    "location": "Penthouse lounge",
+    "background": "Holographic glow",
+    "elements": "Mirror shards",
+    "ornate": "Luxury pillars",
+    "weather": "Moonlit night",
+    "fog": "Silver fog",
+    "timeOfDay": "Moonlit evening",
+    "season": "All-season",
+    "palette": "Silver and black",
+    "artStyle": "Magazine cover chibi",
+    "effects": "Iridescent sheen",
+    "shadow": "Clean studio shadow",
+    "camera": "Portrait close-up",
+    "lighting": "Backlight glow",
+    "textOption": "Cover line",
+    "fontStyle": "Fashion editorial serif",
+    "textPlacement": "Upper third center",
+    "songType": "Brand chant",
+    "offerType": "Sales page template",
+    "ctaGoal": "Get instant access"
+  },
+  "Pink Trap Star": {
+    "gender": "Female",
+    "race": "African American",
+    "skinTone": "Rich pecan",
+    "eyes": "Lavender",
+    "expression": "Sassy pout",
+    "features": "Cupid bow lips",
+    "hair": "Bubble ponytail",
+    "hairColor": "Lavender",
+    "lashes": "Manga lashes",
+    "makeup": "Lilac glam",
+    "brows": "Foxy brows",
+    "nails": "Butterfly nails",
+    "hairGems": "Star clips",
+    "edges": "Looped edges",
+    "earrings": "Butterfly earrings",
+    "femaleOutfit": "Puffer jacket with biker shorts",
+    "femaleShoes": "Glitter sneakers",
+    "femaleAccessories": "Furry bag",
+    "products": "Faceless video kit",
+    "location": "Trap staircase",
+    "background": "Pink cloud wall",
+    "elements": "Cash fan",
+    "ornate": "Satin bows",
+    "weather": "Pink sunset",
+    "fog": "Pink fog",
+    "timeOfDay": "Pink sunset",
+    "season": "Summer",
+    "palette": "Lavender and silver",
+    "artStyle": "Kawaii street glam",
+    "effects": "Glitter rain",
+    "shadow": "Shadow halo",
+    "camera": "Sitting pose framing",
+    "lighting": "Pink glow lighting",
+    "textOption": "Trend phrase",
+    "fontStyle": "Sticker font",
+    "textPlacement": "Lower third left",
+    "songType": "Dance challenge song",
+    "offerType": "Faceless video kit",
+    "ctaGoal": "Follow for more"
+  },
+  "Poster Girl Energy": {
+    "gender": "Female",
+    "race": "Brazilian",
+    "skinTone": "Honey bronze",
+    "eyes": "Sapphire",
+    "expression": "Radiant joy",
+    "features": "Bright smile",
+    "hair": "Layered waves",
+    "hairColor": "Golden blonde",
+    "lashes": "Long wispy lashes",
+    "makeup": "Rose gold glam",
+    "brows": "Soft glam brows",
+    "nails": "Airbrushed nails",
+    "hairGems": "Crystal beads",
+    "edges": "Polished baby hairs",
+    "earrings": "Star earrings",
+    "femaleOutfit": "Denim set with sneakers",
+    "femaleShoes": "White sneakers",
+    "femaleAccessories": "Designer shades",
+    "products": "Website banner set",
+    "location": "Studio cyclorama",
+    "background": "Poster collage wall",
+    "elements": "Poster tears",
+    "ornate": "Baroque frames",
+    "weather": "Soft sunshine",
+    "fog": "Studio haze",
+    "timeOfDay": "Midday",
+    "season": "Late spring",
+    "palette": "White and gold",
+    "artStyle": "Illustrated beauty poster",
+    "effects": "Poster grain",
+    "shadow": "Spotlight shadow",
+    "camera": "Symmetrical center shot",
+    "lighting": "Studio beauty lighting",
+    "textOption": "Poster headline",
+    "fontStyle": "High-fashion serif",
+    "textPlacement": "Headline across top",
+    "songType": "Promo anthem",
+    "offerType": "Graphic template kit",
+    "ctaGoal": "Visit my website"
+  },
+  "Rooftop Rich": {
+    "gender": "Male",
+    "race": "Senegalese",
+    "skinTone": "Deep espresso",
+    "eyes": "Golden",
+    "expression": "No-nonsense stare",
+    "features": "Sculpted nose",
+    "hair": "Freeform locs",
+    "hairColor": "Copper",
+    "lashes": "No lashes",
+    "makeup": "None",
+    "brows": "Full brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Diamond studs",
+    "maleOutfit": "Puffer coat with stacked jeans",
+    "maleShoes": "Yeezys",
+    "maleAccessories": "Iced-out watch",
+    "products": "Generator vault",
+    "location": "City rooftop",
+    "background": "Cloud glow",
+    "elements": "City smoke",
+    "ornate": "Halo rings",
+    "weather": "Windy city night",
+    "fog": "Backlight fog",
+    "timeOfDay": "Night",
+    "season": "Winter",
+    "palette": "Royal blue and gold",
+    "artStyle": "Luxury urban chibi",
+    "effects": "Glow trail",
+    "shadow": "Side cast shadow",
+    "camera": "Wide scene shot",
+    "lighting": "City streetlight glow",
+    "textOption": "Main headline",
+    "fontStyle": "Blocky chrome font",
+    "textPlacement": "Upper third left",
+    "songType": "Hype chorus",
+    "offerType": "Generator bundle",
+    "ctaGoal": "Unlock the vault"
+  },
+  "Sneaker Store Slay": {
+    "gender": "Female",
+    "race": "Ethiopian",
+    "skinTone": "Cocoa",
+    "eyes": "Gray",
+    "expression": "Side-eye",
+    "features": "Defined cheekbones",
+    "hair": "Loc bob",
+    "hairColor": "Emerald green",
+    "lashes": "Soft natural lashes",
+    "makeup": "Minimal beat",
+    "brows": "Natural soft brows",
+    "nails": "Short glossy nails",
+    "hairGems": "Hair cuffs",
+    "edges": "Clean curved edges",
+    "earrings": "Twist hoops",
+    "femaleOutfit": "Leather set with sneakers",
+    "femaleShoes": "Retro runners",
+    "femaleAccessories": "Luxury tote",
+    "products": "Product mockup pack",
+    "location": "Sneaker store",
+    "background": "LED light tunnel",
+    "elements": "Sneaker boxes",
+    "ornate": "Glossy pedestals",
+    "weather": "Cool breeze",
+    "fog": "Subtle mist",
+    "timeOfDay": "Late afternoon",
+    "season": "All-season",
+    "palette": "Emerald and gold",
+    "artStyle": "Streetwear doll style",
+    "effects": "Glass blur",
+    "shadow": "Soft rim shadow",
+    "camera": "Detail crop shot",
+    "lighting": "LED strip glow",
+    "textOption": "Product title",
+    "fontStyle": "Graphic sans",
+    "textPlacement": "Footer strip",
+    "songType": "Reel-ready song",
+    "offerType": "Mockup bundle",
+    "ctaGoal": "Shop now"
+  },
+  "Street Luxe King": {
+    "gender": "Male",
+    "race": "African American",
+    "skinTone": "Mahogany",
+    "eyes": "Whiskey",
+    "expression": "Direct gaze",
+    "features": "Bold brow bone",
+    "hair": "Waves",
+    "hairColor": "Blue-black",
+    "lashes": "No lashes",
+    "makeup": "None",
+    "brows": "Classic clean brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Huggie hoops",
+    "maleOutfit": "Street luxury two-piece set",
+    "maleShoes": "Monogram sneakers",
+    "maleAccessories": "Chain stack",
+    "products": "Course sales page",
+    "location": "Fancy apartment hallway",
+    "background": "Glossy black studio",
+    "elements": "Diamond sparkles",
+    "ornate": "Iced-out borders",
+    "weather": "Clear night",
+    "fog": "Luxury haze",
+    "timeOfDay": "Prime time",
+    "season": "All-season",
+    "palette": "Platinum and black",
+    "artStyle": "Poster shine chibi",
+    "effects": "Metallic shimmer",
+    "shadow": "High contrast shadow",
+    "camera": "Direct front view",
+    "lighting": "Beauty dish lighting",
+    "textOption": "Hero text",
+    "fontStyle": "Chrome serif",
+    "textPlacement": "Chest area centered",
+    "songType": "Promo anthem",
+    "offerType": "Course",
+    "ctaGoal": "Learn more"
+  },
+  "Sunset Side-Eye": {
+    "gender": "Female",
+    "race": "Somali",
+    "skinTone": "Warm almond",
+    "eyes": "Bright hazel",
+    "expression": "Side-eye",
+    "features": "Soft freckles",
+    "hair": "Fulani braids",
+    "hairColor": "Soft auburn",
+    "lashes": "Flared lashes",
+    "makeup": "Sunset glam",
+    "brows": "Tapered brows",
+    "nails": "Nude ombré nails",
+    "hairGems": "Gold cuffs",
+    "edges": "Double swoop edges",
+    "earrings": "Teardrop earrings",
+    "femaleOutfit": "Wrap top with stacked denim",
+    "femaleShoes": "Gold heels",
+    "femaleAccessories": "Charm necklace",
+    "products": "Instagram reel pack",
+    "location": "Rooftop sunset",
+    "background": "Sunset sky",
+    "elements": "Rose petals",
+    "ornate": "Rose walls",
+    "weather": "Pink sunset",
+    "fog": "Sunset haze",
+    "timeOfDay": "Sunset",
+    "season": "Late spring",
+    "palette": "Sunset ombré",
+    "artStyle": "Soft glam chibi",
+    "effects": "Shimmer wash",
+    "shadow": "Warm sunset shadow",
+    "camera": "Over-the-shoulder",
+    "lighting": "Sunset rim light",
+    "textOption": "Motivational line",
+    "fontStyle": "Cursive glam font",
+    "textPlacement": "Upper third right",
+    "songType": "60-second hook song",
+    "offerType": "Social media bundle",
+    "ctaGoal": "Watch now"
+  },
+  "Trap Staircase Mood": {
+    "gender": "Male",
+    "race": "West African",
+    "skinTone": "Chestnut",
+    "eyes": "Warm brown",
+    "expression": "Street cool",
+    "features": "Rounded jawline",
+    "hair": "Short sponge twists",
+    "hairColor": "Jet black",
+    "lashes": "No lashes",
+    "makeup": "None",
+    "brows": "Defined brows",
+    "nails": "None",
+    "hairGems": "None",
+    "edges": "None",
+    "earrings": "Cross earrings",
+    "maleOutfit": "Graphic hoodie with cargos",
+    "maleShoes": "Combat boots",
+    "maleAccessories": "Crossbody bag",
+    "products": "TikTok content pack",
+    "location": "Trap staircase",
+    "background": "Urban mural",
+    "elements": "Street posters",
+    "ornate": "Studded borders",
+    "weather": "Moody rain",
+    "fog": "Street mist",
+    "timeOfDay": "Late night",
+    "season": "Sweater season",
+    "palette": "Mocha and rose",
+    "artStyle": "Urban doll style",
+    "effects": "VHS glow",
+    "shadow": "Streetlight shadow",
+    "camera": "Handheld angle",
+    "lighting": "Streetlight glow",
+    "textOption": "Short CTA",
+    "fontStyle": "Street bold",
+    "textPlacement": "Lower third right",
+    "songType": "Rap hook",
+    "offerType": "Social media bundle",
+    "ctaGoal": "Tap to shop"
+  },
+  "VIP Velvet Energy": {
+    "gender": "Female",
+    "race": "Caribbean",
+    "skinTone": "Bronzed mocha",
+    "eyes": "Violet",
+    "expression": "Bossed up",
+    "features": "High cheekbones",
+    "hair": "Loose waves",
+    "hairColor": "Ruby red",
+    "lashes": "Volume lashes",
+    "makeup": "Wine glam",
+    "brows": "Ultra defined brows",
+    "nails": "Velvet nails",
+    "hairGems": "Sequin roots",
+    "edges": "Velvet laid edges",
+    "earrings": "Tassel earrings",
+    "femaleOutfit": "Sequin jogger set",
+    "femaleShoes": "Strappy heels",
+    "femaleAccessories": "Crystal watch",
+    "products": "Exclusive preset pack",
+    "location": "VIP section",
+    "background": "Velvet drape",
+    "elements": "Glossy bubbles",
+    "ornate": "Crystal chandeliers",
+    "weather": "Clear night",
+    "fog": "Velvet haze",
+    "timeOfDay": "Night",
+    "season": "Holiday season",
+    "palette": "Wine and nude",
+    "artStyle": "High-shine pop chibi",
+    "effects": "Studio bloom",
+    "shadow": "Floating shadow",
+    "camera": "Fashion close-up",
+    "lighting": "Editorial spotlight",
+    "textOption": "Launch teaser",
+    "fontStyle": "Decorative serif",
+    "textPlacement": "Title block center",
+    "songType": "Glam intro song",
+    "offerType": "Exclusive vault",
+    "ctaGoal": "Get instant access"
+  },
+  "Wet Pavement Shine": {
+    "gender": "Female",
+    "race": "African American",
+    "skinTone": "Copper brown",
+    "eyes": "Ice Blue",
+    "expression": "Calm but dangerous",
+    "features": "Fox eyes",
+    "hair": "Curly bob",
+    "hairColor": "Midnight blue",
+    "lashes": "Textured lashes",
+    "makeup": "Icy glam",
+    "brows": "Straight brows",
+    "nails": "Chrome nails",
+    "hairGems": "Silver pins",
+    "edges": "Precision laid edges",
+    "earrings": "Silver hoops",
+    "femaleOutfit": "Windbreaker set with shorts",
+    "femaleShoes": "Sock boots",
+    "femaleAccessories": "Tinted shades",
+    "products": "YouTube title pack",
+    "location": "Gas station at night",
+    "background": "Neon city lights",
+    "elements": "Smoke ribbons",
+    "ornate": "Reflective panels",
+    "weather": "Rainy night",
+    "fog": "Wet haze",
+    "timeOfDay": "Late night",
+    "season": "Rainy season",
+    "palette": "Blue and silver",
+    "artStyle": "Flash-lit beauty chibi",
+    "effects": "Wet shine",
+    "shadow": "Wet pavement shadow",
+    "camera": "Street snap angle",
+    "lighting": "White flash lighting",
+    "textOption": "Scene label",
+    "fontStyle": "Minimal sans",
+    "textPlacement": "Bottom left",
+    "songType": "Moodboard soundtrack",
+    "offerType": "Video script pack",
+    "ctaGoal": "Click to learn"
+  },
+  "Y2K Shine Rush": {
+    "gender": "Female",
+    "race": "Mixed Race",
+    "skinTone": "Peach beige",
+    "eyes": "Aqua",
+    "expression": "Happy glow",
+    "features": "Wide smile",
+    "hair": "Blunt bob",
+    "hairColor": "Pastel pink",
+    "lashes": "Half lashes",
+    "makeup": "Y2K glam",
+    "brows": "Vintage thin brows",
+    "nails": "Jelly nails",
+    "hairGems": "Rainbow gems",
+    "edges": "Mini heart edges",
+    "earrings": "Butterfly earrings",
+    "femaleOutfit": "Zip-up crop set",
+    "femaleShoes": "Wedge sneakers",
+    "femaleAccessories": "Phone case charm",
+    "products": "Font bundle",
+    "location": "Mall escalator",
+    "background": "Y2K sticker collage",
+    "elements": "Holographic stickers",
+    "ornate": "Neon hearts",
+    "weather": "Soft sunshine",
+    "fog": "Glitter fog",
+    "timeOfDay": "Brunch hour",
+    "season": "Vacation season",
+    "palette": "Mint and silver",
+    "artStyle": "Y2K airbrush chibi",
+    "effects": "Iridescent sheen",
+    "shadow": "Soft drop shadow",
+    "camera": "Selfie angle",
+    "lighting": "Y2K flash lighting",
+    "textOption": "Sticker text",
+    "fontStyle": "Foam bubble font",
+    "textPlacement": "Sticker top right",
+    "songType": "Short intro sting",
+    "offerType": "Branding kit",
+    "ctaGoal": "Start creating"
+  }
+};
+
+
+function syncSunoHiddenInput(targetId){
+  const hidden = document.getElementById(targetId);
+  if(!hidden) return;
+  const activeValues = Array.from(document.querySelectorAll('.suno-chip[data-target="' + targetId + '"].active'))
+    .map(btn => btn.textContent.trim())
+    .filter(Boolean);
+  const custom = document.getElementById(targetId + 'Custom');
+  const customValue = custom ? custom.value.trim() : '';
+  hidden.value = activeValues.concat(customValue ? [customValue] : []).join(', ');
+}
+
+function updateSunoSliderDisplays(){
+  const weirdnessSlider = document.getElementById('weirdnessSlider');
+  const styleSlider = document.getElementById('styleInfluenceSlider');
+  const audioSlider = document.getElementById('audioInfluenceSlider');
+  const weirdnessDisplay = document.getElementById('weirdnessDisplay');
+  const styleDisplay = document.getElementById('styleInfluenceDisplay');
+  const audioDisplay = document.getElementById('audioInfluenceDisplay');
+  if(weirdnessSlider && weirdnessDisplay) weirdnessDisplay.textContent = weirdnessSlider.value + '%';
+  if(styleSlider && styleDisplay) styleDisplay.textContent = styleSlider.value + '%';
+  if(audioSlider && audioDisplay) audioDisplay.textContent = audioSlider.value + '%';
+}
+
+function initSunoControls(){
+  document.querySelectorAll('.suno-chip').forEach(btn => {
+    btn.addEventListener('click', function(){
+      btn.classList.toggle('active');
+      syncSunoHiddenInput(btn.dataset.target);
+    });
+  });
+
+  ['songGenre','songStyle'].forEach(id => {
+    const custom = document.getElementById(id + 'Custom');
+    if(custom){
+      custom.addEventListener('input', function(){
+        syncSunoHiddenInput(id);
+      });
+    }
+    syncSunoHiddenInput(id);
+  });
+
+  ['weirdnessSlider','styleInfluenceSlider','audioInfluenceSlider'].forEach(id => {
+    const slider = document.getElementById(id);
+    if(slider){
+      slider.addEventListener('input', updateSunoSliderDisplays);
+      slider.addEventListener('change', updateSunoSliderDisplays);
+    }
+  });
+
+  updateSunoSliderDisplays();
+}
+
+function applyPreset(presetName){
+  const preset = glamPresets[presetName];
+  if(!preset) return;
+  Object.entries(preset).forEach(([id, value]) => {
+    const field = document.getElementById(id);
+    if(field && !isFieldLockedByControlId(id)){
+      field.value = value;
+    }
+  });
+  if(!isFieldLockedByControlId('skin')){
+    skinRange.value = 5;
+    skinValue.textContent = skinRange.value;
+  }
+  syncGenderState();
+  generate();
+}
+
+function renderPresetButtons(){
+  const presetGrid = document.getElementById('presetGrid');
+  if(!presetGrid) return;
+  presetGrid.innerHTML = '';
+  Object.keys(glamPresets).forEach(name => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'preset-btn';
+    btn.textContent = name;
+    btn.onclick = () => applyPreset(name);
+    presetGrid.appendChild(btn);
+  });
+}
+
+initFieldLocks();
+initSunoControls();
+renderPresetButtons();
+syncGenderState();
+setAnimatedTheme();
+</script>
+</div></body>
+</html>
